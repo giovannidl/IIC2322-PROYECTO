@@ -57,37 +57,36 @@ public class Coolc {
 
                 Position pos = lex.getStartPos();
 
-                //try
-                //{
-					switch(token) {
+				switch(token) {
 
-						case Parser.IDENTIFIER:
-						    System.out.printf("%s:%2d:%2d  Identifier<%s>\n", f.getPath(), pos.line, pos.column, lex.getLStrVal());
-						    break;
+					case Parser.ID:
+					    System.out.printf("%s:%2d:%2d  Id<%s>\n", f.getPath(), pos.line, pos.column, lex.getLStrVal());
+					    break;
 
-						case Parser.TYPE:
-						    System.out.printf("%s:%2d:%2d  Type<%s>\n", f.getPath(), pos.line, pos.column, lex.getLStrVal());
-						    break;
+					case Parser.TYPE:
+					    System.out.printf("%s:%2d:%2d  Type<%s>\n", f.getPath(), pos.line, pos.column, lex.getLStrVal());
+					    break;
 
-						case Parser.STRING:
-						    System.out.printf("%s:%2d:%2d  String<%s>\n", f.getPath(), pos.line, pos.column, lex.getLStrVal());
-						    break;
+					case Parser.STRING:
+						String texto = lex.getLStrVal().trim();
+					    if(texto.length() <= 20)
+					    	System.out.printf("%s:%2d:%2d  String<%s>\n", f.getPath(), pos.line, pos.column, texto);
+					    else
+					    	System.out.printf("%s:%2d:%2d  String<%s>\n", f.getPath(), pos.line, pos.column, texto.substring(0,20));
+					    break;
 
-						case Parser.INT:
-						    System.out.printf("%s:%2d:%2d  Int<%s>\n", f.getPath(), pos.line, pos.column, lex.getLIntVal());
-						    break;
+					case Parser.BOOLEAN:
+					    System.out.printf("%s:%2d:%2d  Boolean<%s>\n", f.getPath(), pos.line, pos.column, lex.getLStrVal());
+					    break;
 
-						default:
-						    System.out.printf("%s:%2d:%2d  %s\n", f.getPath(), pos.line, pos.column, Parser.getTokenName(token));
-						    break;
-						}
-						
-                //}
-                //catch(Error error)
-                //{
-                	
-                //}
+					case Parser.INT:
+					    System.out.printf("%s:%2d:%2d  Int<%s>\n", f.getPath(), pos.line, pos.column, lex.getLIntVal());
+					    break;
 
+					default:
+					    System.out.printf("%s:%2d:%2d  %s\n", f.getPath(), pos.line, pos.column, Parser.getTokenName(token));
+					    break;
+					}
 
             }
         }

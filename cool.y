@@ -20,25 +20,23 @@ package coolc.parser;
 
 %token T_UNKNOWN
 
-%token CLASS
-%token ELSE
-%token FALSE
-%token IF
-%token FI
-%token IN
-%token INHERITS
-%token ISVOID
-%token LET
-%token LOOP
-%token POOL
-%token THEN
-%token WHILE
-%token CASE
-%token ESAC
-%token NEW
-%token OF
-%token NOT
-%token TRUE
+%token CLASS "class"
+%token ELSE "else"
+%token IF "if"
+%token FI "fi"
+%token IN "in"
+%token INHERITS "inherits"
+%token ISVOID "isvoid"
+%token LET "let"
+%token LOOP "loop"
+%token POOL "pool"
+%token THEN "then"
+%token WHILE "while"
+%token CASE "case"
+%token ESAC "esac"
+%token NEW "new"
+%token OF "of"
+%token NOT "not"
 
 %token T_ASSIGN "<-"
 %token T_SET "=>"
@@ -50,15 +48,20 @@ package coolc.parser;
 %token T_DIVIDE "/"
 %token  T_LPAREN "(" T_RPAREN ")"
 %token  T_LBRACE  "[" T_RBRACE "]"
+%token T_LCURLY "{" T_RCURLY "}"
 %token  T_SEMICOLON ";"
 %token T_COLON ":"
 %token  T_COMMA ","
+%token T_DOT "."
+%token T_TILDE "~"
+%token T_AT "@"
 
 %token T_PLUS "+"
 
-%token <String> IDENTIFIER
+%token <String> ID
 %token <String> TYPE
 %token <String> STRING
+%token <String> BOOLEAN
 %token <Int> INT
 
 %%
@@ -66,9 +69,9 @@ package coolc.parser;
 expr
     : INT
     | expr "+" expr
-    | IDENTIFIER "(" param_list ")"
+    | ID "(" param_list ")"
     | "[" matrix "]"
-    | IDENTIFIER
+    | ID
     ;
 
 param_list

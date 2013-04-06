@@ -51,5 +51,8 @@
             <arg line="${cool.source}" />
         </java>
     </target>
+    
+    <!-- Hacer un target Test que corra los archivos de una carpeta test con extensión .cl y cree los output y los compare con los 
+    archivos .scan que subieron al proyecto-->
 </project>
 
