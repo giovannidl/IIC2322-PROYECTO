@@ -68,7 +68,6 @@ public class Coolc {
 					    break;
 
 					case Parser.STRING:
-						System.err.println(lex.getLStrVal());
 						String texto = lex.getLStrVal().replaceAll("\n", "").replaceAll("\f", "");
 					    if(texto.length() <= 20)
 					    	System.out.printf("%s:%2d:%2d  String<%s>\n", f.getPath(), pos.line, pos.column, texto);
