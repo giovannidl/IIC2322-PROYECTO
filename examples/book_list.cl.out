@@ -47,7 +47,7 @@ examples/book_list.cl:14:19  "{"
 examples/book_list.cl:15: 8  "{"
 examples/book_list.cl:16:12  Id<out_string>
 examples/book_list.cl:16:22  "("
-examples/book_list.cl:16:36  String<title:>
+examples/book_list.cl:16:36  String<title:      >
 examples/book_list.cl:16:37  ")"
 examples/book_list.cl:16:38  "."
 examples/book_list.cl:16:39  Id<out_string>
@@ -62,7 +62,7 @@ examples/book_list.cl:16:72  ")"
 examples/book_list.cl:16:73  ";"
 examples/book_list.cl:17:12  Id<out_string>
 examples/book_list.cl:17:22  "("
-examples/book_list.cl:17:36  String<author:>
+examples/book_list.cl:17:36  String<author:     >
 examples/book_list.cl:17:37  ")"
 examples/book_list.cl:17:38  "."
 examples/book_list.cl:17:39  Id<out_string>
@@ -142,7 +142,7 @@ examples/book_list.cl:37:21  ")"
 examples/book_list.cl:37:22  ";"
 examples/book_list.cl:38:12  Id<out_string>
 examples/book_list.cl:38:22  "("
-examples/book_list.cl:38:37  String<periodical:>
+examples/book_list.cl:38:37  String<periodical:  >
 examples/book_list.cl:38:38  ")"
 examples/book_list.cl:38:39  "."
 examples/book_list.cl:38:40  Id<out_string>

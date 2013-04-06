@@ -491,7 +491,7 @@ examples/sort_list.cl:128:16  "+"
 examples/sort_list.cl:128:18  Int<1>
 examples/sort_list.cl:128:19  ";"
 examples/sort_list.cl:129: 7  "}"
-examples/sort_list.cl:130: 5  Id<pool>
+examples/sort_list.cl:130: 5  "pool"
 examples/sort_list.cl:131: 2  ")"
 examples/sort_list.cl:131: 3  ";"
 examples/sort_list.cl:132: 2  Id<l>

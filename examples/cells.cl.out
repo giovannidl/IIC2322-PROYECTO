@@ -257,7 +257,7 @@ examples/cells.cl:67:45  "+"
 examples/cells.cl:67:47  Int<1>
 examples/cells.cl:67:48  ";"
 examples/cells.cl:68:20  "}"
-examples/cells.cl:69:16  Id<pool>
+examples/cells.cl:69:16  "pool"
 examples/cells.cl:69:20  ";"
 examples/cells.cl:70:16  Id<population_map>
 examples/cells.cl:70:31  "<-"
@@ -296,7 +296,7 @@ examples/cells.cl:82:43  ")"
 examples/cells.cl:82:44  "."
 examples/cells.cl:82:45  Id<init>
 examples/cells.cl:82:49  "("
-examples/cells.cl:82:70  String<X>
+examples/cells.cl:82:70  String<         X         >
 examples/cells.cl:82:71  ")"
 examples/cells.cl:82:72  ";"
 examples/cells.cl:83:12  Id<cells>
@@ -338,7 +338,7 @@ examples/cells.cl:89:47  "-"
 examples/cells.cl:89:49  Int<1>
 examples/cells.cl:89:50  ";"
 examples/cells.cl:90:20  "}"
-examples/cells.cl:91:16  Id<pool>
+examples/cells.cl:91:16  "pool"
 examples/cells.cl:92:12  ")"
 examples/cells.cl:92:13  ";"
 examples/cells.cl:93:12  Id<self>

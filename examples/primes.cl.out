@@ -94,7 +94,7 @@ examples/primes.cl:59:18  "<-"
 examples/primes.cl:59:21  Id<divisor>
 examples/primes.cl:59:29  "+"
 examples/primes.cl:59:31  Int<1>
-examples/primes.cl:60: 8  Id<pool>
+examples/primes.cl:60: 8  "pool"
 examples/primes.cl:60:12  ";"
 examples/primes.cl:62: 8  "if"
 examples/primes.cl:62:11  Id<testee>
@@ -115,7 +115,7 @@ examples/primes.cl:66:23  ")"
 examples/primes.cl:66:24  ";"
 examples/primes.cl:67:12  Id<out_string>
 examples/primes.cl:67:22  "("
-examples/primes.cl:67:36  String<is prime.>
+examples/primes.cl:67:36  String< is prime.>
 examples/primes.cl:67:37  ")"
 examples/primes.cl:67:38  ";"
 examples/primes.cl:68:10  "}"
@@ -138,7 +138,7 @@ examples/primes.cl:76:19  String<continue>
 examples/primes.cl:77: 8  "fi"
 examples/primes.cl:77:10  ";"
 examples/primes.cl:79: 6  "}"
-examples/primes.cl:80: 4  Id<pool>
+examples/primes.cl:80: 4  "pool"
 examples/primes.cl:80: 8  ";"
 examples/primes.cl:82: 0  "}"
 examples/primes.cl:82: 1  ";"

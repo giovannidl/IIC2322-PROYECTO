@@ -94,7 +94,7 @@ W = [Ww]
     {I}{S}{V}{O}{I}{D}       {return Parser.ISVOID; }
     {L}{E}{T}           {return Parser.LET; }
     {L}{O}{O}{P}         {return Parser.LOOP; }
-    {P}{O}{O}{L}]         {return Parser.POOL; }
+    {P}{O}{O}{L}         {return Parser.POOL; }
     {T}{H}{E}{N}         {return Parser.THEN; }
     {W}{H}{I}{L}{E}        {return Parser.WHILE; }
     {C}{A}{S}{E}         {return Parser.CASE; }

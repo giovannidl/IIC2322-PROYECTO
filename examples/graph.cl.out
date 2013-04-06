@@ -239,7 +239,7 @@ examples/graph.cl:100:20  "{"
 examples/graph.cl:101: 6  "{"
 examples/graph.cl:102: 9  Id<out_string>
 examples/graph.cl:102:19  "("
-examples/graph.cl:102:23  String<(>
+examples/graph.cl:102:23  String< (>
 examples/graph.cl:102:24  ")"
 examples/graph.cl:102:25  ";"
 examples/graph.cl:103: 2  Id<out_int>
@@ -728,7 +728,7 @@ examples/graph.cl:263:19  "("
 examples/graph.cl:263:20  ")"
 examples/graph.cl:263:21  ";"
 examples/graph.cl:264: 5  "}"
-examples/graph.cl:264: 7  Id<pool>
+examples/graph.cl:264: 7  "pool"
 examples/graph.cl:265: 9  ")"
 examples/graph.cl:265:10  ";"
 examples/graph.cl:266: 2  Id<g>
@@ -825,7 +825,7 @@ examples/graph.cl:282: 8  ")"
 examples/graph.cl:282:10  ")"
 examples/graph.cl:282:11  ";"
 examples/graph.cl:283: 2  "}"
-examples/graph.cl:283: 4  Id<pool>
+examples/graph.cl:283: 4  "pool"
 examples/graph.cl:283: 8  ";"
 examples/graph.cl:284: 2  Id<v>
 examples/graph.cl:284: 3  ";"
@@ -997,7 +997,7 @@ examples/graph.cl:309:21  ","
 examples/graph.cl:309:22  Int<1>
 examples/graph.cl:309:23  ")"
 examples/graph.cl:309:25  "="
-examples/graph.cl:309:29  String<>
+examples/graph.cl:309:29  String< >
 examples/graph.cl:309:31  "then"
 examples/graph.cl:309:36  Id<a2i>
 examples/graph.cl:309:39  "("
@@ -1088,7 +1088,7 @@ examples/graph.cl:327: 7  "if"
 examples/graph.cl:327:10  "("
 examples/graph.cl:327:11  Id<c>
 examples/graph.cl:327:13  "="
-examples/graph.cl:327:17  String<>
+examples/graph.cl:327:17  String< >
 examples/graph.cl:327:18  ")"
 examples/graph.cl:327:20  "then"
 examples/graph.cl:328:10  "{"
@@ -1195,7 +1195,7 @@ examples/graph.cl:342:10  "}"
 examples/graph.cl:343: 7  "fi"
 examples/graph.cl:343:10  "fi"
 examples/graph.cl:344: 3  ")"
-examples/graph.cl:345: 6  Id<pool>
+examples/graph.cl:345: 6  "pool"
 examples/graph.cl:346: 4  ")"
 examples/graph.cl:347: 8  ")"
 examples/graph.cl:347: 9  ";"

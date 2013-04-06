@@ -121,7 +121,7 @@ examples/atoi.cl:34: 4  Id<i>
 examples/atoi.cl:34: 6  "="
 examples/atoi.cl:34: 8  Int<1>
 examples/atoi.cl:34:10  "then"
-examples/atoi.cl:35: 1  String<1>
+examples/atoi.cl:35: 1  String<1	>
 examples/atoi.cl:35: 3  "else"
 examples/atoi.cl:36: 1  "if"
 examples/atoi.cl:36: 4  Id<i>
@@ -358,7 +358,7 @@ examples/atoi.cl:76:14  "+"
 examples/atoi.cl:76:16  Int<1>
 examples/atoi.cl:76:17  ";"
 examples/atoi.cl:77: 3  "}"
-examples/atoi.cl:78: 6  Id<pool>
+examples/atoi.cl:78: 6  "pool"
 examples/atoi.cl:79: 4  ")"
 examples/atoi.cl:80: 8  ")"
 examples/atoi.cl:80: 9  ";"

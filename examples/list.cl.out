@@ -177,7 +177,7 @@ examples/list.cl:109:22  ")"
 examples/list.cl:109:23  ";"
 examples/list.cl:110: 6  Id<out_string>
 examples/list.cl:110:16  "("
-examples/list.cl:110:19  String<>
+examples/list.cl:110:19  String< >
 examples/list.cl:110:20  ")"
 examples/list.cl:110:21  ";"
 examples/list.cl:111: 6  Id<print_list>
@@ -255,7 +255,7 @@ examples/list.cl:131:29  "("
 examples/list.cl:131:30  ")"
 examples/list.cl:131:31  ";"
 examples/list.cl:132: 5  "}"
-examples/list.cl:133: 2  Id<pool>
+examples/list.cl:133: 2  "pool"
 examples/list.cl:133: 6  ";"
 examples/list.cl:134: 6  "}"
 examples/list.cl:135: 3  "}"

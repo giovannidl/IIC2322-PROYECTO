@@ -239,7 +239,7 @@ examples/arith.cl:66:21  "+"
 examples/arith.cl:66:23  Int<1>
 examples/arith.cl:66:24  ";"
 examples/arith.cl:67:11  "}"
-examples/arith.cl:68: 8  Id<pool>
+examples/arith.cl:68: 8  "pool"
 examples/arith.cl:69: 5  ")"
 examples/arith.cl:69: 6  ";"
 examples/arith.cl:70: 5  "("
@@ -853,7 +853,7 @@ examples/arith.cl:218:14  "+"
 examples/arith.cl:218:16  Int<1>
 examples/arith.cl:218:17  ";"
 examples/arith.cl:219: 3  "}"
-examples/arith.cl:220: 6  Id<pool>
+examples/arith.cl:220: 6  "pool"
 examples/arith.cl:221: 4  ")"
 examples/arith.cl:222: 8  ")"
 examples/arith.cl:222: 9  ";"
@@ -985,7 +985,7 @@ examples/arith.cl:258:19  "{"
 examples/arith.cl:259: 6  "{"
 examples/arith.cl:260: 9  Id<out_string>
 examples/arith.cl:260:19  "("
-examples/arith.cl:260:44  String<To add a number to>
+examples/arith.cl:260:44  String<	To add a number to >
 examples/arith.cl:260:45  ")"
 examples/arith.cl:260:46  ";"
 examples/arith.cl:261: 9  Id<print>
@@ -1000,7 +1000,7 @@ examples/arith.cl:262:35  ")"
 examples/arith.cl:262:36  ";"
 examples/arith.cl:263: 9  Id<out_string>
 examples/arith.cl:263:19  "("
-examples/arith.cl:263:33  String<To negate>
+examples/arith.cl:263:33  String<	To negate >
 examples/arith.cl:263:34  ")"
 examples/arith.cl:263:35  ";"
 examples/arith.cl:264: 9  Id<print>
@@ -1015,7 +1015,7 @@ examples/arith.cl:265:35  ")"
 examples/arith.cl:265:36  ";"
 examples/arith.cl:266: 9  Id<out_string>
 examples/arith.cl:266:19  "("
-examples/arith.cl:266:54  String<To find the differen>
+examples/arith.cl:266:54  String<	To find the differe>
 examples/arith.cl:266:55  ")"
 examples/arith.cl:266:56  ";"
 examples/arith.cl:267: 9  Id<print>
@@ -1030,7 +1030,7 @@ examples/arith.cl:268:53  ")"
 examples/arith.cl:268:54  ";"
 examples/arith.cl:269: 9  Id<out_string>
 examples/arith.cl:269:19  "("
-examples/arith.cl:269:48  String<To find the factoria>
+examples/arith.cl:269:48  String<	To find the factori>
 examples/arith.cl:269:49  ")"
 examples/arith.cl:269:50  ";"
 examples/arith.cl:270: 9  Id<print>
@@ -1045,7 +1045,7 @@ examples/arith.cl:271:35  ")"
 examples/arith.cl:271:36  ";"
 examples/arith.cl:272: 9  Id<out_string>
 examples/arith.cl:272:19  "("
-examples/arith.cl:272:33  String<To square>
+examples/arith.cl:272:33  String<	To square >
 examples/arith.cl:272:34  ")"
 examples/arith.cl:272:35  ";"
 examples/arith.cl:273: 9  Id<print>
@@ -1060,7 +1060,7 @@ examples/arith.cl:274:35  ")"
 examples/arith.cl:274:36  ";"
 examples/arith.cl:275: 9  Id<out_string>
 examples/arith.cl:275:19  "("
-examples/arith.cl:275:31  String<To cube>
+examples/arith.cl:275:31  String<	To cube >
 examples/arith.cl:275:32  ")"
 examples/arith.cl:275:33  ";"
 examples/arith.cl:276: 9  Id<print>
@@ -1075,7 +1075,7 @@ examples/arith.cl:277:35  ")"
 examples/arith.cl:277:36  ";"
 examples/arith.cl:278: 9  Id<out_string>
 examples/arith.cl:278:19  "("
-examples/arith.cl:278:38  String<To find out if>
+examples/arith.cl:278:38  String<	To find out if >
 examples/arith.cl:278:39  ")"
 examples/arith.cl:278:40  ";"
 examples/arith.cl:279: 9  Id<print>
@@ -1090,7 +1090,7 @@ examples/arith.cl:280:53  ")"
 examples/arith.cl:280:54  ";"
 examples/arith.cl:281: 9  Id<out_string>
 examples/arith.cl:281:19  "("
-examples/arith.cl:281:33  String<To divide>
+examples/arith.cl:281:33  String<	To divide >
 examples/arith.cl:281:34  ")"
 examples/arith.cl:281:35  ";"
 examples/arith.cl:282: 9  Id<print>
@@ -1105,12 +1105,12 @@ examples/arith.cl:283:39  ")"
 examples/arith.cl:283:40  ";"
 examples/arith.cl:284: 2  Id<out_string>
 examples/arith.cl:284:12  "("
-examples/arith.cl:284:48  String<To get a new number.>
+examples/arith.cl:284:48  String<	To get a new number>
 examples/arith.cl:284:49  ")"
 examples/arith.cl:284:50  ";"
 examples/arith.cl:285: 2  Id<out_string>
 examples/arith.cl:285:12  "("
-examples/arith.cl:285:38  String<To quit...enter q:>
+examples/arith.cl:285:38  String<	To quit...enter q:>
 examples/arith.cl:285:39  ")"
 examples/arith.cl:285:40  ";"
 examples/arith.cl:286: 9  Id<in_string>
@@ -1340,7 +1340,7 @@ examples/arith.cl:332:33  ")"
 examples/arith.cl:332:34  ";"
 examples/arith.cl:333: 4  Id<out_string>
 examples/arith.cl:333:14  "("
-examples/arith.cl:333:17  String<>
+examples/arith.cl:333:17  String< >
 examples/arith.cl:333:18  ")"
 examples/arith.cl:333:19  ";"
 examples/arith.cl:334: 1  "}"
@@ -1367,7 +1367,7 @@ examples/arith.cl:341:20  "loop"
 examples/arith.cl:342:12  "{"
 examples/arith.cl:344: 8  Id<out_string>
 examples/arith.cl:344:18  "("
-examples/arith.cl:344:27  String<number>
+examples/arith.cl:344:27  String<number >
 examples/arith.cl:344:28  ")"
 examples/arith.cl:344:29  ";"
 examples/arith.cl:345: 8  Id<print>
@@ -1651,7 +1651,7 @@ examples/arith.cl:381:25  "then"
 examples/arith.cl:382: 4  "{"
 examples/arith.cl:383:21  Id<out_string>
 examples/arith.cl:383:31  "("
-examples/arith.cl:383:40  String<number>
+examples/arith.cl:383:40  String<number >
 examples/arith.cl:383:41  ")"
 examples/arith.cl:383:42  ";"
 examples/arith.cl:384:21  Id<print>
@@ -1669,7 +1669,7 @@ examples/arith.cl:387: 4  "else"
 examples/arith.cl:388: 4  "{"
 examples/arith.cl:389:21  Id<out_string>
 examples/arith.cl:389:31  "("
-examples/arith.cl:389:40  String<number>
+examples/arith.cl:389:40  String<number >
 examples/arith.cl:389:41  ")"
 examples/arith.cl:389:42  ";"
 examples/arith.cl:390:21  Id<print>
@@ -1740,7 +1740,7 @@ examples/arith.cl:398:56  "in"
 examples/arith.cl:399:10  "{"
 examples/arith.cl:400:13  Id<out_string>
 examples/arith.cl:400:23  "("
-examples/arith.cl:400:32  String<number>
+examples/arith.cl:400:32  String<number >
 examples/arith.cl:400:33  ")"
 examples/arith.cl:400:34  ";"
 examples/arith.cl:401:13  Id<print>
@@ -1750,7 +1750,7 @@ examples/arith.cl:401:23  ")"
 examples/arith.cl:401:24  ";"
 examples/arith.cl:402:13  Id<out_string>
 examples/arith.cl:402:23  "("
-examples/arith.cl:402:37  String<is equal to>
+examples/arith.cl:402:37  String<is equal to >
 examples/arith.cl:402:38  ")"
 examples/arith.cl:402:39  ";"
 examples/arith.cl:403:13  Id<print>
@@ -1849,7 +1849,7 @@ examples/arith.cl:422:42  "fi"
 examples/arith.cl:422:45  "fi"
 examples/arith.cl:422:47  ";"
 examples/arith.cl:423:12  "}"
-examples/arith.cl:424: 9  Id<pool>
+examples/arith.cl:424: 9  "pool"
 examples/arith.cl:424:13  ";"
 examples/arith.cl:425: 7  "}"
 examples/arith.cl:426: 3  "}"

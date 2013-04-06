@@ -1,0 +1,100 @@
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+-
++
+0
+-
+
+
+	To add a number to 
+...enter a:
+
+	To negate 
+...enter b:
+
+	To find the difference between 
+and another number...enter c:
+
+	To find the factorial of 
+...enter d:
+
+	To square 
+...enter e:
+
+	To cube 
+...enter f:
+
+	To find out if 
+is a multiple of 3...enter g:
+
+	To divide 
+by 8...enter h:
+
+	To get a new number...enter j:
+
+	To quit...enter q:
+
+
+
+
+Please enter a number...  
+Class type is now A
+
+Class type is now B
+
+Class type is now C
+
+Class type is now D
+
+Class type is now E
+
+Oooops
+
+ 
+number 
+is even!
+
+is odd!
+
+a
+b
+Oooops
+
+c
+d
+e
+f
+g
+number 
+is divisible by 3.
+
+number 
+is not divisible by 3.
+
+h
+number 
+is equal to 
+times 8 with a remainder of 
+
+
+j
+q

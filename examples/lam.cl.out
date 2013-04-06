@@ -164,7 +164,7 @@ examples/lam.cl:35:39  ")"
 examples/lam.cl:35:40  ";"
 examples/lam.cl:35:42  Id<out_string>
 examples/lam.cl:35:52  "("
-examples/lam.cl:35:55  String<>
+examples/lam.cl:35:55  String< >
 examples/lam.cl:35:56  ")"
 examples/lam.cl:35:57  ";"
 examples/lam.cl:36:19  Id<rest>
@@ -792,7 +792,7 @@ examples/lam.cl:180:28  "("
 examples/lam.cl:180:29  ")"
 examples/lam.cl:180:30  ";"
 examples/lam.cl:181:10  "}"
-examples/lam.cl:182: 8  Id<pool>
+examples/lam.cl:182: 8  "pool"
 examples/lam.cl:182:12  ";"
 examples/lam.cl:183: 8  "if"
 examples/lam.cl:183:11  Id<cur_env>
@@ -1078,17 +1078,17 @@ examples/lam.cl:256:15  ")"
 examples/lam.cl:256:16  ";"
 examples/lam.cl:257: 6  Id<out_string>
 examples/lam.cl:257:16  "("
-examples/lam.cl:257:39  String<inherits Closure {>
+examples/lam.cl:257:39  String< inherits Closure {>
 examples/lam.cl:257:40  ")"
 examples/lam.cl:257:41  ";"
 examples/lam.cl:258: 6  Id<out_string>
 examples/lam.cl:258:16  "("
-examples/lam.cl:258:58  String<apply(y : EvalObject>
+examples/lam.cl:258:58  String<  apply(y : EvalObje>
 examples/lam.cl:258:59  ")"
 examples/lam.cl:258:60  ";"
 examples/lam.cl:259: 6  Id<out_string>
 examples/lam.cl:259:16  "("
-examples/lam.cl:259:54  String<{ out_string("Applyi>
+examples/lam.cl:259:54  String<    { out_string("Ap>
 examples/lam.cl:259:55  ")"
 examples/lam.cl:259:56  ";"
 examples/lam.cl:260: 6  Id<out_int>
@@ -1103,7 +1103,7 @@ examples/lam.cl:261:28  ")"
 examples/lam.cl:261:29  ";"
 examples/lam.cl:262: 6  Id<out_string>
 examples/lam.cl:262:16  "("
-examples/lam.cl:262:33  String<x <- y;>
+examples/lam.cl:262:33  String<      x <- y;>
 examples/lam.cl:262:34  ")"
 examples/lam.cl:262:35  ";"
 examples/lam.cl:263: 6  Id<body>
@@ -1360,7 +1360,7 @@ examples/lam.cl:317:22  ")"
 examples/lam.cl:317:23  ";"
 examples/lam.cl:318: 6  Id<out_string>
 examples/lam.cl:318:16  "("
-examples/lam.cl:318:41  String<y : EvalObject <->
+examples/lam.cl:318:41  String<     y : EvalObject >
 examples/lam.cl:318:42  ")"
 examples/lam.cl:318:43  ";"
 examples/lam.cl:319: 6  Id<arg>
@@ -1374,27 +1374,27 @@ examples/lam.cl:319:32  ")"
 examples/lam.cl:319:33  ";"
 examples/lam.cl:320: 6  Id<out_string>
 examples/lam.cl:320:16  "("
-examples/lam.cl:320:23  String<in>
+examples/lam.cl:320:23  String< in>
 examples/lam.cl:320:24  ")"
 examples/lam.cl:320:25  ";"
 examples/lam.cl:321: 6  Id<out_string>
 examples/lam.cl:321:16  "("
-examples/lam.cl:321:31  String<case x of>
+examples/lam.cl:321:31  String<  case x of>
 examples/lam.cl:321:32  ")"
 examples/lam.cl:321:33  ";"
 examples/lam.cl:322: 6  Id<out_string>
 examples/lam.cl:322:16  "("
-examples/lam.cl:322:50  String<c : Closure => c.app>
+examples/lam.cl:322:50  String<    c : Closure => c>
 examples/lam.cl:322:51  ")"
 examples/lam.cl:322:52  ";"
 examples/lam.cl:323: 6  Id<out_string>
 examples/lam.cl:323:16  "("
-examples/lam.cl:323:67  String<o : Object => { abor>
+examples/lam.cl:323:67  String<    o : Object => { >
 examples/lam.cl:323:68  ")"
 examples/lam.cl:323:69  ";"
 examples/lam.cl:324: 6  Id<out_string>
 examples/lam.cl:324:16  "("
-examples/lam.cl:324:25  String<esac)>
+examples/lam.cl:324:25  String<  esac)>
 examples/lam.cl:324:26  ")"
 examples/lam.cl:324:27  ";"
 examples/lam.cl:325: 4  "}"
@@ -1642,7 +1642,7 @@ examples/lam.cl:384:31  "{"
 examples/lam.cl:385: 4  "{"
 examples/lam.cl:386: 6  Id<out_string>
 examples/lam.cl:386:16  "("
-examples/lam.cl:386:31  String<beta-reduce:>
+examples/lam.cl:386:31  String<beta-reduce: >
 examples/lam.cl:386:32  ")"
 examples/lam.cl:386:33  ";"
 examples/lam.cl:387: 6  Id<e>
@@ -1696,7 +1696,7 @@ examples/lam.cl:398: 9  Id<new_expr>
 examples/lam.cl:398:17  ";"
 examples/lam.cl:399: 4  Id<out_string>
 examples/lam.cl:399:14  "("
-examples/lam.cl:399:21  String<=>>
+examples/lam.cl:399:21  String< =>>
 examples/lam.cl:399:22  ")"
 examples/lam.cl:399:23  ";"
 examples/lam.cl:400: 4  Id<e>
@@ -1709,7 +1709,7 @@ examples/lam.cl:401: 2  "}"
 examples/lam.cl:402: 7  "fi"
 examples/lam.cl:402: 9  ";"
 examples/lam.cl:403: 5  "}"
-examples/lam.cl:404:10  Id<pool>
+examples/lam.cl:404:10  "pool"
 examples/lam.cl:404:14  ";"
 examples/lam.cl:405: 3  Id<out_string>
 examples/lam.cl:405:13  "("
@@ -1737,7 +1737,7 @@ examples/lam.cl:413:51  ")"
 examples/lam.cl:413:52  ";"
 examples/lam.cl:414: 6  Id<out_string>
 examples/lam.cl:414:16  "("
-examples/lam.cl:414:65  String<eval() : EvalObject >
+examples/lam.cl:414:65  String<  eval() : EvalObjec>
 examples/lam.cl:414:66  ")"
 examples/lam.cl:414:67  ";"
 examples/lam.cl:415: 6  Id<out_string>
@@ -1762,32 +1762,32 @@ examples/lam.cl:421:56  ")"
 examples/lam.cl:421:57  ";"
 examples/lam.cl:422: 6  Id<out_string>
 examples/lam.cl:422:16  "("
-examples/lam.cl:422:39  String<parent : Closure;>
+examples/lam.cl:422:39  String<  parent : Closure;>
 examples/lam.cl:422:40  ")"
 examples/lam.cl:422:41  ";"
 examples/lam.cl:423: 6  Id<out_string>
 examples/lam.cl:423:16  "("
-examples/lam.cl:423:37  String<x : EvalObject;>
+examples/lam.cl:423:37  String<  x : EvalObject;>
 examples/lam.cl:423:38  ")"
 examples/lam.cl:423:39  ";"
 examples/lam.cl:424: 6  Id<out_string>
 examples/lam.cl:424:16  "("
-examples/lam.cl:424:56  String<get_parent() : Closu>
+examples/lam.cl:424:56  String<  get_parent() : Clo>
 examples/lam.cl:424:57  ")"
 examples/lam.cl:424:58  ";"
 examples/lam.cl:425: 6  Id<out_string>
 examples/lam.cl:425:16  "("
-examples/lam.cl:425:49  String<get_x() : EvalObject>
+examples/lam.cl:425:49  String<  get_x() : EvalObje>
 examples/lam.cl:425:50  ")"
 examples/lam.cl:425:51  ";"
 examples/lam.cl:426: 6  Id<out_string>
 examples/lam.cl:426:16  "("
-examples/lam.cl:426:75  String<init(p : Closure) : >
+examples/lam.cl:426:75  String<  init(p : Closure) >
 examples/lam.cl:426:76  ")"
 examples/lam.cl:426:77  ";"
 examples/lam.cl:427: 6  Id<out_string>
 examples/lam.cl:427:16  "("
-examples/lam.cl:427:80  String<apply(y : EvalObject>
+examples/lam.cl:427:80  String<  apply(y : EvalObje>
 examples/lam.cl:427:81  ")"
 examples/lam.cl:427:82  ";"
 examples/lam.cl:428: 6  Id<out_string>
@@ -1824,7 +1824,7 @@ examples/lam.cl:433:58  "in"
 examples/lam.cl:434: 6  "{"
 examples/lam.cl:435: 1  Id<out_string>
 examples/lam.cl:435:11  "("
-examples/lam.cl:435:33  String<Generating code for>
+examples/lam.cl:435:33  String<Generating code for >
 examples/lam.cl:435:34  ")"
 examples/lam.cl:435:35  ";"
 examples/lam.cl:436: 1  Id<e>
@@ -1858,7 +1858,7 @@ examples/lam.cl:441:28  ")"
 examples/lam.cl:441:29  ";"
 examples/lam.cl:442: 1  Id<out_string>
 examples/lam.cl:442:11  "("
-examples/lam.cl:442:38  String<main() : EvalObject >
+examples/lam.cl:442:38  String<  main() : EvalObjec>
 examples/lam.cl:442:39  ")"
 examples/lam.cl:442:40  ";"
 examples/lam.cl:443: 1  Id<e>
@@ -1873,8 +1873,7 @@ examples/lam.cl:443:27  ")"
 examples/lam.cl:443:28  ";"
 examples/lam.cl:444: 1  Id<out_string>
 examples/lam.cl:444:11  "("
-examples/lam.cl:444:23  String<};
-};>
+examples/lam.cl:444:23  String<};};>
 examples/lam.cl:444:24  ")"
 examples/lam.cl:444:25  ";"
 examples/lam.cl:445: 1  "while"
@@ -1939,7 +1938,7 @@ examples/lam.cl:451:32  Id<cl>
 examples/lam.cl:451:34  ")"
 examples/lam.cl:451:35  ";"
 examples/lam.cl:452: 5  "}"
-examples/lam.cl:453: 1  Id<pool>
+examples/lam.cl:453: 1  "pool"
 examples/lam.cl:453: 5  ";"
 examples/lam.cl:454: 1  Id<out_string>
 examples/lam.cl:454:11  "("

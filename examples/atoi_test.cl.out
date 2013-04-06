@@ -121,7 +121,7 @@ examples/atoi_test.cl:38:17  ")"
 examples/atoi_test.cl:39:18  ")"
 examples/atoi_test.cl:40: 2  "fi"
 examples/atoi_test.cl:41: 4  ")"
-examples/atoi_test.cl:42: 8  Id<pool>
+examples/atoi_test.cl:42: 8  "pool"
 examples/atoi_test.cl:43: 5  ")"
 examples/atoi_test.cl:44: 3  "}"
 examples/atoi_test.cl:44: 4  ";"

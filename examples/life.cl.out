@@ -292,7 +292,7 @@ examples/life.cl:133:12  "+"
 examples/life.cl:133:14  Id<columns>
 examples/life.cl:133:21  ";"
 examples/life.cl:134: 4  "}"
-examples/life.cl:135: 2  Id<pool>
+examples/life.cl:135: 2  "pool"
 examples/life.cl:135: 6  ";"
 examples/life.cl:136: 2  Id<out_string>
 examples/life.cl:136:12  "("
@@ -335,7 +335,7 @@ examples/life.cl:147:17  Int<1>
 examples/life.cl:147:19  "<"
 examples/life.cl:147:21  Id<position>
 examples/life.cl:147:30  "then"
-examples/life.cl:148: 4  String<>
+examples/life.cl:148: 4  String< >
 examples/life.cl:149: 1  "else"
 examples/life.cl:150: 9  Id<population_map>
 examples/life.cl:150:23  "."
@@ -366,7 +366,7 @@ examples/life.cl:155:23  ")"
 examples/life.cl:155:25  "<"
 examples/life.cl:155:27  Int<0>
 examples/life.cl:155:29  "then"
-examples/life.cl:156: 9  String<>
+examples/life.cl:156: 9  String< >
 examples/life.cl:157: 1  "else"
 examples/life.cl:158: 4  Id<cell>
 examples/life.cl:158: 8  "("
@@ -395,7 +395,7 @@ examples/life.cl:163:27  "+"
 examples/life.cl:163:29  Id<columns>
 examples/life.cl:163:36  ")"
 examples/life.cl:163:38  "then"
-examples/life.cl:164: 9  String<>
+examples/life.cl:164: 9  String< >
 examples/life.cl:165: 1  "else"
 examples/life.cl:166: 4  Id<cell>
 examples/life.cl:166: 8  "("
@@ -436,7 +436,7 @@ examples/life.cl:171:55  "+"
 examples/life.cl:171:57  Int<1>
 examples/life.cl:171:58  ")"
 examples/life.cl:171:60  "then"
-examples/life.cl:172: 9  String<>
+examples/life.cl:172: 9  String< >
 examples/life.cl:173: 1  "else"
 examples/life.cl:174: 4  Id<cell>
 examples/life.cl:174: 8  "("
@@ -461,7 +461,7 @@ examples/life.cl:179: 4  Id<position>
 examples/life.cl:179:13  "="
 examples/life.cl:179:15  Int<0>
 examples/life.cl:179:17  "then"
-examples/life.cl:180: 9  String<>
+examples/life.cl:180: 9  String< >
 examples/life.cl:181: 1  "else"
 examples/life.cl:182: 4  "if"
 examples/life.cl:182: 7  "("
@@ -476,7 +476,7 @@ examples/life.cl:182:38  ")"
 examples/life.cl:182:40  "="
 examples/life.cl:182:42  Id<position>
 examples/life.cl:182:51  "then"
-examples/life.cl:183: 9  String<>
+examples/life.cl:183: 9  String< >
 examples/life.cl:184: 4  "else"
 examples/life.cl:185: 7  Id<cell>
 examples/life.cl:185:11  "("
@@ -506,7 +506,7 @@ examples/life.cl:190:23  ")"
 examples/life.cl:190:25  "<"
 examples/life.cl:190:27  Int<0>
 examples/life.cl:190:29  "then"
-examples/life.cl:191: 9  String<>
+examples/life.cl:191: 9  String< >
 examples/life.cl:192: 1  "else"
 examples/life.cl:192: 7  "if"
 examples/life.cl:192:10  "("
@@ -521,7 +521,7 @@ examples/life.cl:192:41  ")"
 examples/life.cl:192:43  "="
 examples/life.cl:192:45  Id<position>
 examples/life.cl:192:54  "then"
-examples/life.cl:193: 9  String<>
+examples/life.cl:193: 9  String< >
 examples/life.cl:194: 7  "else"
 examples/life.cl:195: 2  Id<north>
 examples/life.cl:195: 7  "("
@@ -551,7 +551,7 @@ examples/life.cl:200:23  ")"
 examples/life.cl:200:25  "<"
 examples/life.cl:200:27  Int<0>
 examples/life.cl:200:29  "then"
-examples/life.cl:201: 9  String<>
+examples/life.cl:201: 9  String< >
 examples/life.cl:202: 1  "else"
 examples/life.cl:202: 6  "if"
 examples/life.cl:202: 9  "("
@@ -574,7 +574,7 @@ examples/life.cl:202:60  "+"
 examples/life.cl:202:62  Int<1>
 examples/life.cl:202:63  ")"
 examples/life.cl:202:65  "then"
-examples/life.cl:203: 9  String<>
+examples/life.cl:203: 9  String< >
 examples/life.cl:204: 6  "else"
 examples/life.cl:205: 8  Id<north>
 examples/life.cl:205:13  "("
@@ -604,7 +604,7 @@ examples/life.cl:210:27  "+"
 examples/life.cl:210:29  Id<columns>
 examples/life.cl:210:36  ")"
 examples/life.cl:210:38  "then"
-examples/life.cl:211: 9  String<>
+examples/life.cl:211: 9  String< >
 examples/life.cl:212: 1  "else"
 examples/life.cl:212: 6  "if"
 examples/life.cl:212: 9  "("
@@ -627,7 +627,7 @@ examples/life.cl:212:60  "+"
 examples/life.cl:212:62  Int<1>
 examples/life.cl:212:63  ")"
 examples/life.cl:212:65  "then"
-examples/life.cl:213:10  String<>
+examples/life.cl:213:10  String< >
 examples/life.cl:214: 6  "else"
 examples/life.cl:215: 8  Id<south>
 examples/life.cl:215:13  "("
@@ -657,7 +657,7 @@ examples/life.cl:220:27  "+"
 examples/life.cl:220:29  Id<columns>
 examples/life.cl:220:36  ")"
 examples/life.cl:220:38  "then"
-examples/life.cl:221: 9  String<>
+examples/life.cl:221: 9  String< >
 examples/life.cl:222: 1  "else"
 examples/life.cl:222: 7  "if"
 examples/life.cl:222:10  "("
@@ -672,7 +672,7 @@ examples/life.cl:222:41  ")"
 examples/life.cl:222:43  "="
 examples/life.cl:222:45  Id<position>
 examples/life.cl:222:54  "then"
-examples/life.cl:223: 9  String<>
+examples/life.cl:223: 9  String< >
 examples/life.cl:224: 7  "else"
 examples/life.cl:225: 8  Id<south>
 examples/life.cl:225:13  "("
@@ -902,7 +902,7 @@ examples/life.cl:271:45  "+"
 examples/life.cl:271:47  Int<1>
 examples/life.cl:271:48  ";"
 examples/life.cl:272:20  "}"
-examples/life.cl:273:16  Id<pool>
+examples/life.cl:273:16  "pool"
 examples/life.cl:273:20  ";"
 examples/life.cl:274:16  Id<population_map>
 examples/life.cl:274:31  "<-"
@@ -937,112 +937,112 @@ examples/life.cl:287:42  ")"
 examples/life.cl:287:43  ";"
 examples/life.cl:288: 3  Id<out_string>
 examples/life.cl:288:13  "("
-examples/life.cl:288:29  String<1: A cross>
+examples/life.cl:288:29  String<	1: A cross>
 examples/life.cl:288:30  ")"
 examples/life.cl:288:31  ";"
 examples/life.cl:289: 3  Id<out_string>
 examples/life.cl:289:13  "("
-examples/life.cl:289:64  String<2: A slash from the >
+examples/life.cl:289:64  String<	2: A slash from the>
 examples/life.cl:289:65  ")"
 examples/life.cl:289:66  ";"
 examples/life.cl:290: 3  Id<out_string>
 examples/life.cl:290:13  "("
-examples/life.cl:290:64  String<3: A slash from the >
+examples/life.cl:290:64  String<	3: A slash from the>
 examples/life.cl:290:65  ")"
 examples/life.cl:290:66  ";"
 examples/life.cl:291: 3  Id<out_string>
 examples/life.cl:291:13  "("
-examples/life.cl:291:26  String<4: An X>
+examples/life.cl:291:26  String<	4: An X>
 examples/life.cl:291:27  ")"
 examples/life.cl:291:28  ";"
 examples/life.cl:292: 3  Id<out_string>
 examples/life.cl:292:13  "("
-examples/life.cl:292:42  String<5: A greater than si>
+examples/life.cl:292:42  String<	5: A greater than s>
 examples/life.cl:292:43  ")"
 examples/life.cl:292:44  ";"
 examples/life.cl:293: 3  Id<out_string>
 examples/life.cl:293:13  "("
-examples/life.cl:293:38  String<6: A less than sign>
+examples/life.cl:293:38  String<	6: A less than sign>
 examples/life.cl:293:39  ")"
 examples/life.cl:293:40  ";"
 examples/life.cl:294: 3  Id<out_string>
 examples/life.cl:294:13  "("
-examples/life.cl:294:44  String<7: Two greater than >
+examples/life.cl:294:44  String<	7: Two greater than>
 examples/life.cl:294:45  ")"
 examples/life.cl:294:46  ";"
 examples/life.cl:295: 3  Id<out_string>
 examples/life.cl:295:13  "("
-examples/life.cl:295:41  String<8: Two less than sig>
+examples/life.cl:295:41  String<	8: Two less than si>
 examples/life.cl:295:42  ")"
 examples/life.cl:295:43  ";"
 examples/life.cl:296: 3  Id<out_string>
 examples/life.cl:296:13  "("
-examples/life.cl:296:27  String<9: A 'V'>
+examples/life.cl:296:27  String<	9: A 'V'>
 examples/life.cl:296:28  ")"
 examples/life.cl:296:29  ";"
 examples/life.cl:297: 3  Id<out_string>
 examples/life.cl:297:13  "("
-examples/life.cl:297:37  String<10: An inverse 'V'>
+examples/life.cl:297:37  String<	10: An inverse 'V'>
 examples/life.cl:297:38  ")"
 examples/life.cl:297:39  ";"
 examples/life.cl:298: 3  Id<out_string>
 examples/life.cl:298:13  "("
-examples/life.cl:298:48  String<11: Numbers 9 and 10>
+examples/life.cl:298:48  String<	11: Numbers 9 and 1>
 examples/life.cl:298:49  ")"
 examples/life.cl:298:50  ";"
 examples/life.cl:299: 3  Id<out_string>
 examples/life.cl:299:13  "("
-examples/life.cl:299:34  String<12: A full grid>
+examples/life.cl:299:34  String<	12: A full grid>
 examples/life.cl:299:35  ")"
 examples/life.cl:299:36  ";"
 examples/life.cl:300: 3  Id<out_string>
 examples/life.cl:300:13  "("
-examples/life.cl:300:28  String<13: A 'T'>
+examples/life.cl:300:28  String<	13: A 'T'>
 examples/life.cl:300:29  ")"
 examples/life.cl:300:30  ";"
 examples/life.cl:301: 3  Id<out_string>
 examples/life.cl:301:13  "("
-examples/life.cl:301:33  String<14: A plus '+'>
+examples/life.cl:301:33  String<	14: A plus '+'>
 examples/life.cl:301:34  ")"
 examples/life.cl:301:35  ";"
 examples/life.cl:302: 3  Id<out_string>
 examples/life.cl:302:13  "("
-examples/life.cl:302:28  String<15: A 'W'>
+examples/life.cl:302:28  String<	15: A 'W'>
 examples/life.cl:302:29  ")"
 examples/life.cl:302:30  ";"
 examples/life.cl:303: 3  Id<out_string>
 examples/life.cl:303:13  "("
-examples/life.cl:303:29  String<16: An 'M'>
+examples/life.cl:303:29  String<	16: An 'M'>
 examples/life.cl:303:30  ")"
 examples/life.cl:303:31  ";"
 examples/life.cl:304: 3  Id<out_string>
 examples/life.cl:304:13  "("
-examples/life.cl:304:29  String<17: An 'E'>
+examples/life.cl:304:29  String<	17: An 'E'>
 examples/life.cl:304:30  ")"
 examples/life.cl:304:31  ";"
 examples/life.cl:305: 3  Id<out_string>
 examples/life.cl:305:13  "("
-examples/life.cl:305:28  String<18: A '3'>
+examples/life.cl:305:28  String<	18: A '3'>
 examples/life.cl:305:29  ")"
 examples/life.cl:305:30  ";"
 examples/life.cl:306: 3  Id<out_string>
 examples/life.cl:306:13  "("
-examples/life.cl:306:29  String<19: An 'O'>
+examples/life.cl:306:29  String<	19: An 'O'>
 examples/life.cl:306:30  ")"
 examples/life.cl:306:31  ";"
 examples/life.cl:307: 3  Id<out_string>
 examples/life.cl:307:13  "("
-examples/life.cl:307:29  String<20: An '8'>
+examples/life.cl:307:29  String<	20: An '8'>
 examples/life.cl:307:30  ")"
 examples/life.cl:307:31  ";"
 examples/life.cl:308: 3  Id<out_string>
 examples/life.cl:308:13  "("
-examples/life.cl:308:29  String<21: An 'S'>
+examples/life.cl:308:29  String<	21: An 'S'>
 examples/life.cl:308:30  ")"
 examples/life.cl:308:31  ";"
 examples/life.cl:309: 3  Id<out_string>
 examples/life.cl:309:13  "("
-examples/life.cl:309:30  String<Your choice =>>
+examples/life.cl:309:30  String<Your choice => >
 examples/life.cl:309:31  ")"
 examples/life.cl:309:32  ";"
 examples/life.cl:310: 3  Id<num>
@@ -1061,14 +1061,14 @@ examples/life.cl:312: 6  Id<num>
 examples/life.cl:312:10  "="
 examples/life.cl:312:12  Int<1>
 examples/life.cl:312:14  "then"
-examples/life.cl:313:26  String<XX  XXXX XXXX  XX>
+examples/life.cl:313:26  String< XX  XXXX XXXX  XX  >
 examples/life.cl:314: 3  "else"
 examples/life.cl:314: 8  "if"
 examples/life.cl:314:11  Id<num>
 examples/life.cl:314:15  "="
 examples/life.cl:314:17  Int<2>
 examples/life.cl:314:19  "then"
-examples/life.cl:315:31  String<X   X   X   X   X>
+examples/life.cl:315:31  String<    X   X   X   X   >
 examples/life.cl:316: 3  "else"
 examples/life.cl:316: 8  "if"
 examples/life.cl:316:11  Id<num>
@@ -1096,35 +1096,35 @@ examples/life.cl:322:11  Id<num>
 examples/life.cl:322:15  "="
 examples/life.cl:322:17  Int<6>
 examples/life.cl:322:19  "then"
-examples/life.cl:323:27  String<X   X   X     X     >
+examples/life.cl:323:27  String<    X   X   X     X >
 examples/life.cl:324: 3  "else"
 examples/life.cl:324: 8  "if"
 examples/life.cl:324:11  Id<num>
 examples/life.cl:324:15  "="
 examples/life.cl:324:17  Int<7>
 examples/life.cl:324:19  "then"
-examples/life.cl:325:22  String<X  X  X  XX  X>
+examples/life.cl:325:22  String<X  X  X  XX  X      >
 examples/life.cl:326: 3  "else"
 examples/life.cl:326: 8  "if"
 examples/life.cl:326:11  Id<num>
 examples/life.cl:326:15  "="
 examples/life.cl:326:17  Int<8>
 examples/life.cl:326:19  "then"
-examples/life.cl:327:22  String<X  XX  X  X  X>
+examples/life.cl:327:22  String< X  XX  X  X  X     >
 examples/life.cl:328: 3  "else"
 examples/life.cl:328: 8  "if"
 examples/life.cl:328:11  Id<num>
 examples/life.cl:328:15  "="
 examples/life.cl:328:17  Int<9>
 examples/life.cl:328:19  "then"
-examples/life.cl:329:17  String<X   X X X   X>
+examples/life.cl:329:17  String<X   X X X   X  >
 examples/life.cl:330: 3  "else"
 examples/life.cl:330: 8  "if"
 examples/life.cl:330:11  Id<num>
 examples/life.cl:330:15  "="
 examples/life.cl:330:17  Int<10>
 examples/life.cl:330:20  "then"
-examples/life.cl:331:17  String<X   X X X   X>
+examples/life.cl:331:17  String<  X   X X X   X>
 examples/life.cl:332: 3  "else"
 examples/life.cl:332: 8  "if"
 examples/life.cl:332:11  Id<num>
@@ -1152,21 +1152,21 @@ examples/life.cl:338:11  Id<num>
 examples/life.cl:338:15  "="
 examples/life.cl:338:17  Int<14>
 examples/life.cl:338:20  "then"
-examples/life.cl:339:31  String<X    X  XXXXX  X    >
+examples/life.cl:339:31  String<  X    X  XXXXX  X  >
 examples/life.cl:340: 3  "else"
 examples/life.cl:340: 8  "if"
 examples/life.cl:340:11  Id<num>
 examples/life.cl:340:15  "="
 examples/life.cl:340:17  Int<15>
 examples/life.cl:340:20  "then"
-examples/life.cl:341:27  String<X     X X X X   X X>
+examples/life.cl:341:27  String<X     X X X X   X X >
 examples/life.cl:342: 3  "else"
 examples/life.cl:342: 8  "if"
 examples/life.cl:342:11  Id<num>
 examples/life.cl:342:15  "="
 examples/life.cl:342:17  Int<16>
 examples/life.cl:342:20  "then"
-examples/life.cl:343:27  String<X X   X X X X     X>
+examples/life.cl:343:27  String<  X X   X X X X     >
 examples/life.cl:344: 3  "else"
 examples/life.cl:344: 8  "if"
 examples/life.cl:344:11  Id<num>
@@ -1187,23 +1187,23 @@ examples/life.cl:348:11  Id<num>
 examples/life.cl:348:15  "="
 examples/life.cl:348:17  Int<19>
 examples/life.cl:348:20  "then"
-examples/life.cl:349:18  String<XX X  XX  X XX>
+examples/life.cl:349:18  String< XX X  XX  X XX >
 examples/life.cl:350: 3  "else"
 examples/life.cl:350: 8  "if"
 examples/life.cl:350:11  Id<num>
 examples/life.cl:350:15  "="
 examples/life.cl:350:17  Int<20>
 examples/life.cl:350:20  "then"
-examples/life.cl:351:30  String<XX X  XX  X XX X  XX>
+examples/life.cl:351:30  String< XX X  XX  X XX X  X>
 examples/life.cl:352: 3  "else"
 examples/life.cl:352: 8  "if"
 examples/life.cl:352:11  Id<num>
 examples/life.cl:352:15  "="
 examples/life.cl:352:17  Int<21>
 examples/life.cl:352:20  "then"
-examples/life.cl:353:30  String<XXXX   X    XX    X >
+examples/life.cl:353:30  String< XXXX   X    XX    X>
 examples/life.cl:354: 3  "else"
-examples/life.cl:355:27  String<>
+examples/life.cl:355:27  String<                    >
 examples/life.cl:356: 2  "fi"
 examples/life.cl:356: 5  "fi"
 examples/life.cl:356: 8  "fi"
@@ -1433,10 +1433,10 @@ examples/life.cl:426: 6  Id<continue>
 examples/life.cl:426:15  "<-"
 examples/life.cl:426:18  Boolean<False>
 examples/life.cl:427: 7  "fi"
-examples/life.cl:428:16  Id<pool>
+examples/life.cl:428:16  "pool"
 examples/life.cl:428:20  ";"
 examples/life.cl:429:12  "}"
-examples/life.cl:430:12  Id<pool>
+examples/life.cl:430:12  "pool"
 examples/life.cl:430:16  ";"
 examples/life.cl:431: 5  Id<self>
 examples/life.cl:431: 9  ";"
