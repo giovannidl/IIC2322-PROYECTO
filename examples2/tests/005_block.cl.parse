@@ -1,0 +1,7 @@
+program
+    class Main
+        method main : SELF_TYPE
+            block
+                int 0
+                str "dabale arroz a la zorra el abad"
+                bool true

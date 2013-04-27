@@ -1,0 +1,10 @@
+program
+    class Main
+        method main : SELF_TYPE
+            while
+                unary not
+                    id tengoElSecretoDeLaCangreburger
+            loop
+                binary =
+                    id disfraz
+                    bool true

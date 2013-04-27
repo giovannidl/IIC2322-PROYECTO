@@ -1,46 +1,57 @@
-/* Fuentes usadas:
-	Manual de jflex
-	www.escet.urjc.es/.../Tema2-AnalizadorLexico-JFlex.pdf
-	Ayudantia Compiladores
-	Ejemplo proyecto
-*/
 package coolc.parser;
+import coolc.ast.*;
 
 %%
 
 %{
 
-    private int commentLevel = 0;
+    private int comment_nesting = 0;
+    private boolean use_string_pos = false;
 
-    private int yylIntVal;
-    
-    private String yylStrVal;
+    private AstNode yylval;
 
-    public Object getLVal(){
-        return yylStrVal;
-    }
+    private StringBuilder strval = new StringBuilder();
+    private int strline, strcol;
 
-    public int getLIntVal() {
-        return yylIntVal;
-    }
-    
-    public String getLStrVal(){
-        return yylStrVal;
+    public AstNode getLVal() {
+        return yylval;
     }
 
     public Position getStartPos() {
+
+        if ( use_string_pos ) {            
+            return new Position(strline, strcol);
+        }
+
         return new Position(yyline, yycolumn);
     }
 
     public Position getEndPos() {
+        
+
+
+        if ( use_string_pos ) {
+
+            return new Position(strline, strcol);
+        }
+
         return new Position(yyline, yycolumn);
     }
 
-    public void yyerror(String msg) {
-        System.err.printf("%2d:%2d :: Error<%s>\n", yyline, yycolumn, msg);
+    public void yyerror(Parser.Location pos, String msg) {
+        //throw new Exception();
     }
 
+    public int yylex() throws java.io.IOException {
+        yylval = null;
+        use_string_pos = false;
+        return __yylex();
+    }
+
+
 %}
+
+%function __yylex
 
 %public
 %class Lexer
@@ -49,151 +60,121 @@ package coolc.parser;
 %column
 
 
-%caseless
+%ignorecase
 
-LINETERMINATOR = \r|\n|\r\n
-WHITESPACE     = {LINETERMINATOR} | [ \t]
-INTEGER        = [0-9]+
-ID             = [a-z][A-Za-z0-9_]*
-TYPE           = [A-Z][A-Za-z0-9_]*
-NOVALIDID      = [0-9][A-Za-z0-9_]*
+TYPE   =  [A-Z][A-Za-z0-9_]*
+ID     = [a-z][A-Za-z0-9_]*
 
-A = [Aa]
-C = [Cc]
-D = [Dd]
-E = [Ee]
-F = [Ff]
-H = [Hh]
-I = [Ii]
-L = [Ll]
-N = [Nn]
-O = [Oo]
-P = [Pp]
-R = [Rr]
-S = [Ss]
-T = [Tt]
-V = [Vv]
-W = [Ww]
-
+%x comment
+%x multiline_comment
+%x string
 
 %implements Parser.Lexer
 %int
 
-%state STRING
-%state COMMENT
-
 %%
 
-<YYINITIAL>{
-    {C}{L}{A}{S}{S}                 {return Parser.CLASS; }
-    {E}{L}{S}{E}                     {return Parser.ELSE; }
-    {I}{F}                             {return Parser.IF; }
-    {F}{I}                             {return Parser.FI; }
-    {I}{N}                             {return Parser.IN; }
-    {I}{N}{H}{E}{R}{I}{T}{S}     {return Parser.INHERITS; }
-    {I}{S}{V}{O}{I}{D}       {return Parser.ISVOID; }
-    {L}{E}{T}           {return Parser.LET; }
-    {L}{O}{O}{P}         {return Parser.LOOP; }
-    {P}{O}{O}{L}         {return Parser.POOL; }
-    {T}{H}{E}{N}         {return Parser.THEN; }
-    {W}{H}{I}{L}{E}        {return Parser.WHILE; }
-    {C}{A}{S}{E}         {return Parser.CASE; }
-    {E}{S}{A}{C}         {return Parser.ESAC; }
-    {N}{E}{W}          {return Parser.NEW; }
-    {O}{F}           {return Parser.OF; }
-    {N}{O}{T}          {return Parser.NOT; }
+<YYINITIAL>      "--"        { yybegin(comment); }
+<comment>[^\n]   { }
+<comment>\n     { yybegin(YYINITIAL);}
 
-    "true"         {
-                       yylStrVal = "True";
-                       return Parser.BOOLEAN;
-                   }
-    "false"        {
-                       yylStrVal = "False";
-                       return Parser.BOOLEAN;
-                   }
+<YYINITIAL>         "(*"        { yybegin(multiline_comment); comment_nesting = 0; }
+<multiline_comment> {
+    "(*"    { comment_nesting++; }
+    [^*]    {}
+    "*"[^)]  {}
+    "*)"    {   if( comment_nesting > 0) { comment_nesting--; }
+                else { yybegin(YYINITIAL); }
+            }
+        }
 
-    "<-"           { return Parser.T_ASSIGN; }
-    "=>"           { return Parser.T_SET; }
-    "="            { return Parser.T_EQ; }
-    "<="           { return Parser.T_MOREEQ; }
-    "<"            { return Parser.T_MORE; }
-    "+"            { return Parser.T_PLUS; }
-    "-"            { return Parser.T_LESS; }
-    "*"            { return Parser.T_MULTI; }
-    "/"            { return Parser.T_DIVIDE; }
-    "("            { return Parser.T_LPAREN; }
-    ")"            { return Parser.T_RPAREN; }
-    "["            { return Parser.T_LBRACE; }
-    "]"            { return Parser.T_RBRACE; }
-    "{"            { return Parser.T_LCURLY; }
-    "}"            { return Parser.T_RCURLY; }
-    ":"            { return Parser.T_COLON; }
-    ";"            { return Parser.T_SEMICOLON; }
-    ","            { return Parser.T_COMMA; }
-    "."            { return Parser.T_DOT; }
-    "~"            { return Parser.T_TILDE; }
-    "@"            { return Parser.T_AT; }
 
-    "\""           { yylStrVal = ""; yybegin(STRING); }
-    "--"~\n        { /* Es un comentario */ }
-    "(*"           {
-                       commentLevel++;
-                       yybegin(COMMENT);
-                   }
+    "\""    {   
+                strval.setLength(0); 
+                strline = yyline;
+                strcol = yycolumn;
+                yybegin(string); 
+            }
+<string>    {
 
-    {INTEGER}      {
-                       yylIntVal = Integer.parseInt(yytext());
-                       return Parser.INT;
-                   }
-    {ID}           {
-                       yylStrVal = yytext();
-                       return Parser.ID;
-                   }
-    {TYPE}         {
-                       yylStrVal = yytext();
-                       return Parser.TYPE;
-                   }
-    {NOVALIDID}    {
-                       yyerror("Identificador ilegal, no puede empezar con un numero.");
-                   }
-    {WHITESPACE}   {
-                       // ignoramos el espacio en blanco
-                   }
+    "\\b"   { strval.append("\b"); }
+    "\\t"   { strval.append("\t"); }
+    ("\\n"|"\\"\n)   { strval.append("\n"); }
+    "\\f"   { strval.append("\f"); }
+    "\\".   { strval.append(yytext().charAt(1)); }
+
+    [^\"\\]  { strval.append(yytext()); }
+    "\""    { 
+                yylval = new ValueNode("String", strval.toString()); 
+                use_string_pos = true;
+                yybegin(YYINITIAL);
+                return Parser.STRING;
+            }
 }
 
-<STRING> {
-    "\""            {
-                        yybegin(YYINITIAL);
-                        return Parser.STRING;
-                    }
-    [^\n\r\"\\]     { yylStrVal += yytext(); }
-    \\t             { yylStrVal += "\t"; }
-    \\n             { yylStrVal += "\n"; }
-    \\b             { yylStrVal += "\b"; }
-    \\f             { yylStrVal += "\f"; }
-    \\\"            { yylStrVal += "\""; }
-    \\\n            { /* no pone nada */ }
-    \\\0            { yyerror("String ilegal, no puede ir un backslah 0"); }
-    \\\\            { yylStrVal += "\\"; }
-    \\[^0nrtf\"\\]  { yylStrVal += yytext().replace("\\", ""); }
-    {LINETERMINATOR}          { yyerror("String ilegal, falta un \\ final para saltar de linea"); }
-}
 
-<COMMENT> {
-    "*)"           {
-                       commentLevel--;
-                       if(commentLevel == 0)
-                       {
-                           yybegin(YYINITIAL);
-                       }
-                   }
-    "(*"           { commentLevel++; }
-    {WHITESPACE}   { /* Comentario */}
-    .              { /* Comentario */ }
-}
+    [0-9]+  {   
+                yylval = new ValueNode("int", Integer.parseInt(yytext()));
+                return Parser.INTEGER; 
+            }
+    "+"     { return Parser.T_PLUS; }
+    "-"     { return Parser.T_MINUS; }
+    "*"     { return Parser.T_MULT; }
+    "/"     { return Parser.T_DIV; }
+    "~"     { return Parser.T_NEGATE; }
+    "not"   { return Parser.T_NOT; }
+    "<"     { return Parser.T_LT; }
+    "<="    { return Parser.T_LTE; }
+    "=>"    { return Parser.T_FAT; }
+    "="     { return Parser.T_EQUALS; }
+    "@"     { return Parser.T_CAST; }
+    "("     { return Parser.T_LPAREN; }
+    ")"     { return Parser.T_RPAREN; }
+    "{"     { return Parser.T_LCURLY; }
+    "}"     { return Parser.T_RCURLY; }
+    ":"     { return Parser.T_COLON; }
+    ";"     { return Parser.T_SEMICOLON; }
+    "."     { return Parser.T_DOT; }
+    ","     { return Parser.T_COMMA; }
+    
+    class   { return Parser.T_CLASS; }
+    else    { return Parser.T_ELSE; }
+    [f]alse   { yylval = new ValueNode("bool", "false");
+                 return Parser.BOOL; }
+    fi      { return Parser.T_FI; }
+    if      { return Parser.T_IF; }
+    in      { return Parser.T_IN; }
+    inherits { return Parser.T_INHERITS; }
+    isvoid  { return Parser.T_ISVOID; }
+    let     { return Parser.T_LET; }
+    loop    { return Parser.T_LOOP; }
+    pool    { return Parser.T_POOL; }
+    then    { return Parser.T_THEN; }
+    while   { return Parser.T_WHILE; }
+    case    { return Parser.T_CASE; }
+    esac    { return Parser.T_ESAC; }
+    new     { return Parser.T_NEW; }
+    of      { return Parser.T_OF; }
+    not     { return Parser.T_NOT; }
+    [t]rue    { yylval = new ValueNode("bool", "true");
+            return Parser.BOOL; }
 
-    <<EOF>>        { return Parser.EOF; }
+    "<-"    { return Parser.T_ASSIGN; }
 
-    .           { System.out.printf("Unknown character [%s]\n", yytext());
+
+
+    {TYPE}  {   
+                yylval = new ValueNode("type", yytext());
+                return Parser.TYPE; 
+            }
+
+    {ID}    {
+                yylval = new ValueNode("id", yytext());
+                return Parser.ID; 
+            }
+    [ \t\r\n]+  {}
+
+    .           { System.out.printf("Unknown character [%s]\n",yytext());
                        return Parser.T_UNKNOWN;    }
-
+    
+    <<EOF>> { return Parser.EOF; }

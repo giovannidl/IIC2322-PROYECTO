@@ -1,0 +1,15 @@
+program
+    class Main
+        method main : SELF_TYPE
+            let
+                vars
+                    SeaOperationsCommander maxRay
+                    LandOperationsSpecialist jakeRockwell
+                        str "kaboom!"
+                    AirOperationsExpert aceMcCloud
+                        binary =
+                            id whoosh
+                            bool true
+                call shout
+                    args
+                        str "Power X-treme"
