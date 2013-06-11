@@ -1,0 +1,6 @@
+program
+    class Main
+        method main : SELF_TYPE
+            call clone as NobleChild
+                callee
+                    id luke

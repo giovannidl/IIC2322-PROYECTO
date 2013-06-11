@@ -1,0 +1,10 @@
+program
+    class Main
+        method main : SELF_TYPE
+            block
+                unary isvoid
+                    id sin
+                unary not
+                    bool true
+                unary ~
+                    int 18374

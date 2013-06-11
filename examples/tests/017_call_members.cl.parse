@@ -1,0 +1,16 @@
+program
+    class Main
+        method main : SELF_TYPE
+            call single
+                callee
+                    call take
+                        callee
+                            call skip
+                                callee
+                                    call list
+                                        callee
+                                            id house
+                                args
+                                    int 4
+                        args
+                            int 2

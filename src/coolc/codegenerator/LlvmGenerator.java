@@ -33,11 +33,17 @@ public class LlvmGenerator
 	private Program _root;
 	private CodeBuffer _buffer;
 	
+	private String _lastTrueLabel;
+	private String _lastFalseLabel;
+	
 	public LlvmGenerator(Program root, SymTable symTable)
 	{
 		this._root = root;
 		this._symTable = symTable;
 		this._buffer = new CodeBuffer();
+		
+		this._lastTrueLabel = null;
+		this._lastFalseLabel = null;
 	}
 	
 	public void generateCode()
@@ -253,11 +259,13 @@ public class LlvmGenerator
 			String code = "br " + this.processReturnType(ifExpr.getCond().getExprType()) + " " + condVar
 					+ ", label %" + condNames[0] + ", label %" + condNames[1];
 			methodCode.addBodyCode(code);
-			
+
+			this._lastTrueLabel = condNames[0];
 			methodCode.addBodyCode(condNames[0] + ":");
 			String trueVar = processMethodExpr(ifExpr.getTrue(), scope, methodCode);
 			methodCode.addBodyCode("br label %" + condNames[2]);
-			
+
+			this._lastFalseLabel = condNames[1];
 			methodCode.addBodyCode(condNames[1] + ":");
 			String falseVar = processMethodExpr(ifExpr.getFalse(), scope, methodCode);
 			methodCode.addBodyCode("br label %" + condNames[2]);
@@ -265,8 +273,10 @@ public class LlvmGenerator
 			methodCode.addBodyCode(condNames[2] + ":");
 			variableName = this._buffer.getNextVariableName();
 			code = variableName + " = phi " + this.processReturnType(ifExpr.getExprType()) + " [ " +
-					trueVar + ", %" + condNames[0] + " ], [ " + falseVar + ", %" + condNames[1] + " ]";
+					trueVar + ", %" + this._lastTrueLabel + " ], [ " + falseVar + ", %" + this._lastFalseLabel + " ]";
 			methodCode.addBodyCode(code);
+			this._lastTrueLabel = condNames[2];
+			this._lastFalseLabel = condNames[2];
 		}
 		else if(expr instanceof NewExpr)
 		{

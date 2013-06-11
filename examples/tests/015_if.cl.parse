@@ -1,0 +1,9 @@
+program
+    class Main
+        method main : SELF_TYPE
+            if
+                id flotaDestruida
+            then
+                id perdiste
+            else
+                id ganaste

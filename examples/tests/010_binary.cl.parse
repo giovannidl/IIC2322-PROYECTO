@@ -1,0 +1,25 @@
+program
+    class Main
+        method main : SELF_TYPE
+            block
+                binary =
+                    id todo
+                    int 42
+                binary <
+                    id algo
+                    id todo
+                binary <=
+                    id pollo
+                    int 3
+                binary /
+                    int 39
+                    id n
+                binary *
+                    int 6
+                    int 9
+                binary -
+                    int 1
+                    id pio
+                binary -
+                    int 56
+                    int 93

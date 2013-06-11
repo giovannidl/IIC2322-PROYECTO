@@ -1,0 +1,15 @@
+program
+    class Main
+        method main : SELF_TYPE
+            instanceof
+                id person
+                case Human finn
+                    str "mathematical"
+                case Dog jake
+                    str "woah, dude!"
+                case Candy bubblegum
+                    str "my loyal candy people!"
+                case CrazyOldMan iceking
+                    str "let's go, günther"
+                case Elemental flamePrincess
+                    str "fwhoosh!"

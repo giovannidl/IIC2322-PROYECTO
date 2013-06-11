@@ -1,0 +1,7 @@
+program
+    class Main
+        method main : SELF_TYPE
+            call doAllTheThings
+                args
+                    int 13
+                    str "choice"
