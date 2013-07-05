@@ -21,7 +21,7 @@ public class DefineMethodCode extends MethodCode
 	public String getCode()
 	{
 		String code = "define " + this._returnType + " @" + this._classType + "_" + this._name + "(";
-		code += "%" + this._classType + "* %_" + this._classType.toLowerCase().charAt(0);
+		code += "%" + this._classType + "* %self";
 		if(!this._params.isEmpty())
 		{
 			for(String[] param : this._params)
@@ -36,19 +36,11 @@ public class DefineMethodCode extends MethodCode
 		}
 		
 		code += ")\n{\n";
-		if(this._superCast)
-		{
-			code += "\t" + this._superVarNam + " = bitcast %" + this._classType + "* %_" + 
-					this._classType.toLowerCase().charAt(0) + " to %" + this._superClassType + "*\n";
-		}
 		
 		for(String exprCode : this._bodyCode)
 		{
 			code += "\t" + exprCode + "\n";
 		}
-		
-		if(this._name.equals("main"))
-			this._returnVariable = "null";
 		
 		code += "\tret " + this._returnType + " " + this._returnVariable + "\n";
 		
@@ -59,7 +51,7 @@ public class DefineMethodCode extends MethodCode
 	public String getParamName(int num)
 	{
 		if(num == 0)
-			return "%_" + this._classType.toLowerCase().charAt(0);
+			return "%self";
 		else
 			return "%." + this._classType + "." + this._params.get(num - 1)[1];
 	}

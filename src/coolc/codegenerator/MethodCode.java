@@ -22,10 +22,6 @@ public abstract class MethodCode
 		this._lastVarType = null;
 		
 		this._bodyCode = new ArrayList < String >();
-		
-		this._superCast = false;
-		this._superVarNam = null;
-		this._superClassType = null;
 	}
 	
 	public void addBodyCode(String code)
@@ -42,21 +38,14 @@ public abstract class MethodCode
 	
 	public abstract String getParamName(int pos);
 	
-	public String getSuperVarNam(String superClassType)
-	{
-		if(!this._superCast)
-		{
-			this._superVarNam = "%_superCast";
-			this._superClassType = superClassType;
-			this._superCast = true;
-		}
-		
-		return this._superVarNam;
-	}
-	
 	public String getLastVarType()
 	{
 		return this._lastVarType;
+	}
+	
+	public String getClassType()
+	{
+		return this._classType;
 	}
 	
 	public void setLastVarType(String type)

@@ -60,14 +60,23 @@ public class LlvmGenerator
 	{	
 		for(ClassDef c : this._root)
 		{
-			ClassDefinitionCode classCode = new ClassDefinitionCode(c.getType());
-			this._buffer.addClassDefinition(classCode);
-			MethodCode initializeCode = new InitializeMethodCode("", c.getType());
-			this._buffer.addInitializeMethod(initializeCode);
-			
 			ClassScope scope = _symTable.findClass(c.getType());
+			ClassDefinitionCode classCode;
+			InitializeMethodCode initializeCode;
 			
-			assert scope != null : "Fatal error, this is impossible!";
+			//Vemos si la clase hereda de otra clase. Si es asi se le pasa su herencia.
+			if(scope.getSuperScope().getClassType().equals("Object"))
+			{
+				classCode = new ClassDefinitionCode(c.getType());
+				initializeCode = new InitializeMethodCode(c.getType());
+			}
+			else
+			{
+				classCode = new ClassDefinitionCode(c.getType(), this._buffer.getClassDefCode(scope.getSuperType()));
+				initializeCode = new InitializeMethodCode(c.getType(), this._buffer.getClassInitCode(scope.getSuperType()));
+			}
+			this._buffer.addClassDefinition(classCode);
+			this._buffer.addInitializeMethod(initializeCode);
 			
 			for(Feature feature : c.getBody())
 			{
@@ -76,13 +85,24 @@ public class LlvmGenerator
 					Method method = (Method) feature;
 					List < String[] > params = new ArrayList < String[] > ();
 					
+					String returnType = method.getType();
+					if("SELF_TYPE".equals(returnType))
+					{
+						returnType = scope.getClassType();
+					}
+					
+					if(method.getName().equals("main"))
+					{
+						this._buffer.setMainClass(c.getType(), returnType);
+					}
+					
 					for(Variable param : method.getParams())
 					{
 						params.add(new String[] {this.processReturnType(param.getType()), param.getId()});
 					}
 					
 					DefineMethodCode methodCode = new DefineMethodCode(method.getName(), 
-							scope.getClassType(), this.processReturnType(method.getType()), params);
+							scope.getClassType(), this.processReturnType(returnType), params);
 					
 					String returnVariable = this.processMethodExpr(method.getBody(), method.getScope()
 											, methodCode);
@@ -94,6 +114,15 @@ public class LlvmGenerator
 						methodCode.addBodyCode(code);
 						returnVariable = castVar;
 					}
+					else if(returnType.equals(scope.getClassType()) && !methodCode.getLastVarType().equals(scope.getClassType()))
+					{
+						String castVar = this._buffer.getNextVariableName();
+						String code = castVar + " = bitcast " + methodCode.getLastVarType() + " " +
+										returnVariable + " to %" + scope.getClassType() + "*";
+						methodCode.addBodyCode(code);
+						returnVariable = castVar;
+					}
+					
 					methodCode.setReturnVariable(returnVariable);  
 					
 					this._buffer.addDefineMethod(methodCode);
@@ -109,16 +138,33 @@ public class LlvmGenerator
 						returnType = scope.getClassType();
 					}
 					
-					AttributeCode attrCode = new AttributeCode(var.getId(), this.processReturnType(var.getType()),
-							scope.getClassType());
+					classCode.addAttrType(this.processReturnType(var.getType()), var.getId());
 					
-					this._buffer.addAttribute(attrCode);
 					if(var.getValue() != null)
 					{
 						String varAttr = this.processMethodExpr(var.getValue(), scope, initializeCode);
 						String attrType = this.processReturnType(var.getValue().getExprType());
-						String code = "store " + attrType + " " + varAttr + ", " + attrType + "* " +
-										attrCode.getName();
+						
+						String ptrVariable = this._buffer.getNextVariableName();
+						String code = ptrVariable + " = getelementptr inbounds " + this.processReturnType(classCode.getClassType()) +
+										" %self, i32 0, i32 " + classCode.getAttributePosition(var.getId());
+						initializeCode.addAttributePointerCode(code);
+						
+						code = "store " + attrType + " " + varAttr + ", " + attrType + "* " + ptrVariable;
+						initializeCode.addBodyCode(code);
+					}
+					//Si no es un tipo básico, no tiene inicialización por default
+					else if(var.getType().equals("Int") || var.getType().equals("String") || 
+							var.getType().equals("Bool"))
+					{
+						String ptrVariable = this._buffer.getNextVariableName();
+						String code = ptrVariable + " = getelementptr inbounds " + this.processReturnType(classCode.getClassType()) +
+										" %self, i32 0, i32 " + classCode.getAttributePosition(var.getId());
+						initializeCode.addAttributePointerCode(code);
+						
+						String varType = this.processReturnType(var.getType());
+						code = "store " + varType + " " + initializeCode.getDefaultValue(varType) + ", " + varType + "* " +
+								ptrVariable;
 						initializeCode.addBodyCode(code);
 					}
 				}
@@ -165,8 +211,12 @@ public class LlvmGenerator
 			{
 				variableName = this.processMethodExpr(assExpr.getValue(), scope, methodCode);
 				String varType = this.processReturnType(assExpr.getValue().getExprType());
-				String code = "store " + varType + " " + variableName + ", " + varType + "* @_" +
-						scope.getClassScope().getClassType() + "_" + assExpr.getId();
+				String ptrVariable = this._buffer.getNextVariableName();
+				String code = ptrVariable + " = getelementptr inbounds " + this.processReturnType(scope.getClassScope().getClassType()) +
+								" %self, i32 0, i32 " + this._buffer.getAttributePosition(scope.getClassScope().getClassType(), assExpr.getId());
+				methodCode.addBodyCode(code);
+				
+				code = "store " + varType + " " + variableName + ", " + varType + "* " + ptrVariable;
 				methodCode.addBodyCode(code);
 			}
 			else if(field.getParent() instanceof MethodScope)
@@ -198,7 +248,6 @@ public class LlvmGenerator
 				calleeScope = _symTable.findClass(call.getExpr().getExprType());
 				callVar = this.processMethodExpr(call.getExpr(), scope, methodCode);
 			}
-			
 			else
 			{
 				calleeScope = scope.getClassScope();
@@ -221,9 +270,21 @@ public class LlvmGenerator
 			{
 				returnType = classMethodName;
 			}
-			if(callVar != null)
+			
+			if(callVar != null && !callVar.equals("%self"))
 			{
-				firstArgs = this.processReturnType(call.getExpr().getExprType()) + " " + callVar;
+				if(call.getExpr().getExprType().equals(classMethodName))
+				{
+					firstArgs = this.processReturnType(call.getExpr().getExprType()) + " " + callVar;
+				}
+				else
+				{
+					String castVar = this._buffer.getNextVariableName();
+					String castCode = castVar + " = bitcast %" + call.getExpr().getExprType() + "* " + callVar +
+										" to %" + classMethodName + "*";
+					methodCode.addBodyCode(castCode);
+					firstArgs = this.processReturnType(classMethodName) + " " + castVar;
+				}
 			}
 			else
 			{
@@ -231,7 +292,11 @@ public class LlvmGenerator
 						methodCode.getParamName(0);
 				if(!classMethodName.equals(scope.getClassScope().getClassType()))
 				{
-					firstArgs = this.processReturnType(calleeScope.getSuperType()) + " " + methodCode.getSuperVarNam(returnType);
+					String castVar = this._buffer.getNextVariableName();
+					String castCode = castVar + " = bitcast %" + scope.getClassScope().getClassType() + "* %self to %" +
+										classMethodName + "*";
+					methodCode.addBodyCode(castCode);
+					firstArgs = this.processReturnType(classMethodName) + " " + castVar;
 				}
 			}
 			
@@ -242,8 +307,21 @@ public class LlvmGenerator
 			int argCount = call.getArgs().size();
 			for(int i = 0; i < argCount; i++)
 			{
-				String argName = processMethodExpr(call.getArgs().get(i) , scope, methodCode);
-				code += this.processReturnType(call.getArgs().get(i).getExprType()) + " " + argName + ", ";
+				String resultVarName = processMethodExpr(call.getArgs().get(i) , scope, methodCode);
+				String paramType = method.getLocalField(method.getParams().get(i)).getType();
+				String argType = call.getArgs().get(i).getExprType();
+				String argName;
+				if(!paramType.equals(argType))
+				{
+					argName = this._buffer.getNextVariableName();
+					String castCode = argName + " = bitcast %" + argType + "* " + resultVarName + " to %" + paramType + "*";
+					methodCode.addBodyCode(castCode);
+				}
+				else
+				{
+					argName = resultVarName;
+				}
+				code += this.processReturnType(paramType) + " " + argName + ", ";
 			}
 			code = code.substring(0, code.length() - 2);
 			
@@ -280,7 +358,10 @@ public class LlvmGenerator
 		}
 		else if(expr instanceof NewExpr)
 		{
-			
+			NewExpr newExpr = (NewExpr) expr;
+			variableName = this._buffer.getNextVariableName();
+			String code = variableName + " = call %" + newExpr.getExprType() + "* @_new" + newExpr.getExprType() + "()";
+			methodCode.addBodyCode(code);
 		}
 		else if(expr instanceof UnaryExpr)
 		{
@@ -384,6 +465,94 @@ public class LlvmGenerator
 		}
 		else if(expr instanceof CaseExpr)
 		{
+			CaseExpr caseExpr = (CaseExpr) expr;
+			String valueVar = this.processMethodExpr(caseExpr.getValue(),scope , methodCode);
+			String objectTypeVarPtr = this._buffer.getNextVariableName();
+			String code = objectTypeVarPtr + " = getelementptr %" + caseExpr.getValue().getExprType() +
+							"* " + valueVar + ", i32 0, i32 0";
+			methodCode.addBodyCode(code);
+			
+			String objectTypeVar = this._buffer.getNextVariableName();
+			code = objectTypeVar + " = bitcast i8** " + objectTypeVarPtr + " to i8*";
+			methodCode.addBodyCode(code);
+			
+			//For que escribe los saltos según el tipo de objeto que es.
+			String[][] caseLabelNames = this._buffer.getNextCaseNames(caseExpr.getCases());
+			for(int i = 0; i < caseExpr.getCases().size(); i++)
+			{
+				//Vamos agregando la etiqueta anterior. La última etiqueta de los false va después del case
+				if(i > 0)
+				{
+					methodCode.addBodyCode(caseLabelNames[1][i - 1] + ":");
+				}
+				String caseTypeVar = this._buffer.getNextVariableName();
+				code = caseTypeVar + " = bitcast [" + (caseExpr.getCases().get(i).getType().length() + 1) + 
+							" x i8]* @_type_" + caseExpr.getCases().get(i).getType() + " to i8*\n";
+				methodCode.addBodyCode(code);
+				
+				String resultStrVar = this._buffer.getNextVariableName();
+				code = resultStrVar + " = call i32 @strcmp(i8* " + objectTypeVar + ", i8* " + caseTypeVar + ")";
+				methodCode.addBodyCode(code);
+				
+				String resultCmpVar = this._buffer.getNextVariableName();
+				code = resultCmpVar + " = icmp eq i32 0, " + resultStrVar;
+				methodCode.addBodyCode(code);
+				
+				code = "br i1 " + resultCmpVar + ", label %" + caseLabelNames[0][i] + ", label %" + caseLabelNames[1][i];
+				methodCode.addBodyCode(code);
+			}
+			
+			//Lista donde se guardarán las variables finales de procesar cada case
+			List < String > finalVarsCase = new ArrayList < String >();
+			//For donde se agrega el cuerpo de los case;
+			for(int i = 0; i < caseExpr.getCases().size(); i++)
+			{
+				methodCode.addBodyCode(caseLabelNames[0][i] + ":");
+				code = "%." + caseExpr.getCases().get(i).getType() + "." + caseExpr.getCases().get(i).getId() + 
+						" = bitcast %" + caseExpr.getValue().getExprType() + "* " + valueVar + " to %" + 
+						caseExpr.getCases().get(i).getType() + "*";
+				methodCode.addBodyCode(code);
+				
+				String finalValVar = this.processMethodExpr(caseExpr.getCases().get(i).getValue(), 
+						caseExpr.getCases().get(i).getScope(), methodCode);
+				
+				if(caseExpr.getExprType().equals(caseExpr.getCases().get(i).getValue().getExprType()))
+				{
+					finalVarsCase.add(finalValVar);
+				}
+				else
+				{
+					String finalVar = this._buffer.getNextVariableName();
+					code = finalVar + " = bitcast %" + caseExpr.getCases().get(i).getValue().getExprType() + "* " +
+							finalValVar + " to %" + caseExpr.getExprType() + "*";
+					methodCode.addBodyCode(code);
+					finalVarsCase.add(finalVar);
+				}
+				
+				//Hacer un casteo a object, ya que todo debería guardarse en un object
+				
+				methodCode.addBodyCode("br label %" + caseLabelNames[2][0]);
+			}
+
+			methodCode.addBodyCode(caseLabelNames[1][caseExpr.getCases().size() - 1] + ":");
+			String emptyVar = this._buffer.getNextVariableName();
+			code = emptyVar + " = call %" + caseExpr.getExprType() + "* @_new" + caseExpr.getExprType() + "()";
+			methodCode.addBodyCode(code);
+			methodCode.addBodyCode("br label %" + caseLabelNames[2][0]);
+			methodCode.addBodyCode(caseLabelNames[2][0] + ":");
+			variableName = this._buffer.getNextVariableName();
+			
+			String phiCode = variableName + " = phi %" + caseExpr.getExprType() + "* ";
+			//For donde va agregando las posibles condiciones del phi
+			for(int i = 0; i < caseExpr.getCases().size(); i++)
+			{
+				phiCode += "[ " + finalVarsCase.get(i) + ", %" + caseLabelNames[0][i] + " ],";
+			}
+			
+			//phiCode = phiCode.substring(0, phiCode.length() - 1);
+			phiCode += "[ " + emptyVar + ", %" + caseLabelNames[1][caseExpr.getCases().size() - 1] + "]";
+			methodCode.addBodyCode(phiCode);
+			
 			
 		}
 		else if(expr instanceof LetExpr)
@@ -395,11 +564,20 @@ public class LlvmGenerator
 			IdExpr id = (IdExpr)expr;
 			Field field = scope.getField(id.getId());
 			
-			if(field.getParent() instanceof ClassScope)
+			if(id.getId().equals("self"))
 			{
+				variableName = "%self";
+			}
+			else if(field.getParent() instanceof ClassScope)
+			{
+				String varPtr = this._buffer.getNextVariableName();
+				String code = varPtr + " = getelementptr inbounds %" + field.getClassScope().getClassType() + 
+							"* %self, i32 0, i32 " + 
+							this._buffer.getAttributePosition(field.getClassScope().getClassType(), id.getId());
+				methodCode.addBodyCode(code);
+				
 				variableName = this._buffer.getNextVariableName();
-				String code = variableName + " = load " + this.processReturnType(id.getExprType()) + "* @_" + 
-						field.getClassScope().getClassType() + "_" + id.getId() + "\n";
+				code = variableName + " = load " + this.processReturnType(id.getExprType()) + "* " + varPtr;
 				methodCode.addBodyCode(code);
 			}
 			else if(field.getParent() instanceof MethodScope)
@@ -416,12 +594,8 @@ public class LlvmGenerator
 				ConstantStringCode constantCode = new ConstantStringCode((String)value);
 				this._buffer.addConstantString(constantCode);
 				
-				String globalVar = this._buffer.getNextVariableName();
-				String code = globalVar + " = load " + constantCode.getType() + " " + constantCode.getName() + "\n";
-				methodCode.addBodyCode(code);
-				
 				variableName = this._buffer.getNextVariableName();
-				code = variableName + " = bitcast " + constantCode.getType() + " " + constantCode.getName() +
+				String code = variableName + " = bitcast " + constantCode.getType() + " " + constantCode.getName() +
 						" to i8*\n";
 				methodCode.addBodyCode(code);
 			}

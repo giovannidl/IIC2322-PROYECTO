@@ -94,11 +94,13 @@ public class ClassScope extends Scope
     public String getClassDefMethod(String name)
     {
     	MethodScope method = _methods.get(name);
-        if(method == null && _superScope != null)
+    	ClassScope auxScope = this;
+        while(method == null && auxScope._superScope != null)
         {
-            return _superScope._classType;
+            auxScope = auxScope._superScope;
+            method = auxScope._methods.get(name);
         }
-        return this._classType;
+        return auxScope._classType;
     }
 
     public void removeMethod(String name)

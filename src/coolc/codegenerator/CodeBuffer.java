@@ -3,41 +3,46 @@ package coolc.codegenerator;
 import java.util.ArrayList;
 import java.util.List;
 
+import coolc.ast.Case;
+
 public class CodeBuffer
 {
 	//Top Buffer
-	private String _defaultClasses;
 	private String _defaultGlobalVariables;
 	private List < ClassDefinitionCode > _classDefinitions;
 	private List < ConstantStringCode > _constantStrings;
-	private List < AttributeCode > _attributes;
 	
 	//Mid Buffer
 	private String _mainDefinition;
-	private List < MethodCode > _initializeMethods;
+	private List < InitializeMethodCode > _initializeMethods;
 	private List < MethodCode > _defineMethods;
 	
 	//Bot Buffer
 	private List <DeclareFunctionCode > _declareFunctions;
 	
+	//La clase que contiene al main
+	private String[] _mainClass;
+	
+	//Contadores del buffer
 	private int _variableNum;
 	private int _condNum;
+	private int _caseNum;
 	
 	public CodeBuffer()
 	{	
 		this._classDefinitions = new ArrayList < ClassDefinitionCode >();
 		this._constantStrings = new ArrayList < ConstantStringCode >();
-		this._attributes = new ArrayList< AttributeCode > ();
 		
-		this._initializeMethods = new ArrayList < MethodCode >();
+		this._initializeMethods = new ArrayList < InitializeMethodCode >();
 		this._defineMethods = new ArrayList < MethodCode >();
 		
 		this._declareFunctions = new ArrayList < DeclareFunctionCode >();
 		
+		this._mainClass = new String[2];
+		
 		this.createAllDeclareFunctions();
 		this.defineDefaultClasses();
 		this.defineDefaultGlobalVariables();
-		this.defineMain();
 		
 		this._variableNum = 0;
 		this._condNum = 0;
@@ -53,12 +58,7 @@ public class CodeBuffer
 		this._constantStrings.add(code);
 	}
 	
-	public void addAttribute(AttributeCode code)
-	{
-		this._attributes.add(code);
-	}
-	
-	public void addInitializeMethod(MethodCode code)
+	public void addInitializeMethod(InitializeMethodCode code)
 	{
 		this._initializeMethods.add(code);
 	}
@@ -75,7 +75,10 @@ public class CodeBuffer
 	
 	public String getPrintableCode()
 	{
-		String code = 	this._defaultClasses + "\n";
+		//Antes de generar el código, genero el main
+		this.defineMain();
+		
+		String code = "";
 		
 		for(ClassDefinitionCode classCode : this._classDefinitions)
 		{
@@ -84,9 +87,9 @@ public class CodeBuffer
 		
 		code += "\n" + this._defaultGlobalVariables + "\n";
 		
-		for(AttributeCode attrCode : this._attributes)
+		for(ClassDefinitionCode classCode : this._classDefinitions)
 		{
-			code += attrCode.getCode() + "\n";
+			code += classCode.getNameCode() + "\n";
 		}
 		
 		for(ConstantStringCode stringCode : this._constantStrings)
@@ -134,6 +137,60 @@ public class CodeBuffer
 				};
 	}
 	
+	public String[][] getNextCaseNames(List < Case > caseExprs)
+	{
+		String[][] names = new String[3][caseExprs.size()];
+		for(int i = 0; i < caseExprs.size(); i++)
+		{
+			names[0][i] = caseExprs.get(i).getType() + this._caseNum;
+			names[1][i] = "FalseJump" + this._caseNum + "_" + i;
+		}
+		names[2] = new String[] { "final_case" + this._caseNum };
+		this._caseNum++;
+		return names;
+	}
+	
+	public ClassDefinitionCode getClassDefCode(String type)
+	{
+		for(ClassDefinitionCode classCode : this._classDefinitions)
+		{
+			if(classCode.getClassType().equals(type))
+				return classCode;
+		}
+		
+		return null;
+	}
+	
+	public InitializeMethodCode getClassInitCode(String type)
+	{
+		for(InitializeMethodCode initMethCode : this._initializeMethods)
+		{
+			if(initMethCode.getClassType().equals(type))
+				return initMethCode;
+		}
+		
+		return null;
+	}
+	
+	public int getAttributePosition(String classType, String attrId)
+	{
+		for(ClassDefinitionCode classCode : this._classDefinitions)
+		{
+			if(classCode.getClassType().equals(classType))
+			{
+				return classCode.getAttributePosition(attrId);
+			}
+		}
+		
+		return -1;
+	}
+	
+	public void setMainClass(String classType, String returnType)
+	{
+		this._mainClass[0] = classType;
+		this._mainClass[1] = returnType;
+	}
+	
 	private void createAllDeclareFunctions()
 	{
 		this._declareFunctions.add(new DeclareFunctionCode("Object_abort", "%Object*", new String[]{"%Object*"}));
@@ -146,6 +203,7 @@ public class CodeBuffer
 		this._declareFunctions.add(new DeclareFunctionCode("String_concat", "i8*", new String[]{"i8*", "i8*"}));
 		this._declareFunctions.add(new DeclareFunctionCode("String_substr", "i8*", new String[]{"i8*", "i32", "i32"}));
 		this._declareFunctions.add(new DeclareFunctionCode("strcmp", "i32", new String[]{ "i8*", "i8*"}));
+		this._declareFunctions.add(new DeclareFunctionCode("malloc", "i8*", new String[]{ "i64"}));
 	}
 	
 	private void defineDefaultGlobalVariables()
@@ -154,16 +212,17 @@ public class CodeBuffer
 	}
 	
 	private void defineDefaultClasses()
-	{
-		this._defaultClasses = 	"%Object = type { i8* }\n" +
-								"%IO = type { i8* }";
+	{	
+		this._classDefinitions.add(new ClassDefinitionCode("Object"));
+		this._classDefinitions.add(new ClassDefinitionCode("IO"));
+		this._initializeMethods.add(new InitializeMethodCode("IO"));
 	}
 	
 	private void defineMain()
 	{
 		this._mainDefinition = 	"define i32 @main()\n{\n" + 
-								"\tcall void @_Main_initializeAttributes(%Main* null)\n" +
-								"\tcall %Object* @Main_main(%Main* null)\n" +
+								"\t%mainClass = call %" + this._mainClass[0] + "* @_new" + this._mainClass[0] +"()\n" +
+								"\tcall %" + this._mainClass[1] + "* @" + this._mainClass[0] + "_main(%" + this._mainClass[0] +  "* %mainClass)\n" +
 								"\tret i32 0\n" +
 								"}\n";	
 	}
