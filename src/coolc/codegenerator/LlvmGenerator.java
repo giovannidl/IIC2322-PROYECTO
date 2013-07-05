@@ -153,7 +153,6 @@ public class LlvmGenerator
 						code = "store " + attrType + " " + varAttr + ", " + attrType + "* " + ptrVariable;
 						initializeCode.addBodyCode(code);
 					}
-					//Si no es un tipo básico, no tiene inicialización por default
 					else if(var.getType().equals("Int") || var.getType().equals("String") || 
 							var.getType().equals("Bool"))
 					{
@@ -164,6 +163,18 @@ public class LlvmGenerator
 						
 						String varType = this.processReturnType(var.getType());
 						code = "store " + varType + " " + initializeCode.getDefaultValue(varType) + ", " + varType + "* " +
+								ptrVariable;
+						initializeCode.addBodyCode(code);
+					}
+					else
+					{
+						String ptrVariable = this._buffer.getNextVariableName();
+						String code = ptrVariable + " = getelementptr inbounds " + this.processReturnType(classCode.getClassType()) +
+										" %self, i32 0, i32 " + classCode.getAttributePosition(var.getId());
+						initializeCode.addAttributePointerCode(code);
+						
+						String varType = this.processReturnType(var.getType());
+						code = "store " + varType + " null, " + varType + "* " +
 								ptrVariable;
 						initializeCode.addBodyCode(code);
 					}
@@ -372,9 +383,19 @@ public class LlvmGenerator
 			switch(unExpr.getOp())
 			{
 				case ISVOID:
-					variableName = this._buffer.getNextVariableName();
-					code = variableName + " = icmp eq void void, " + valueVar;
-					methodCode.addBodyCode(code);
+					if(unExpr.getValue().getExprType().equals("Int") || 
+							unExpr.getValue().getExprType().equals("Bool"))
+					{
+						variableName = "" + 0;
+					}
+					else
+					{
+						variableName = this._buffer.getNextVariableName();
+						code = variableName + " = icmp eq " + this.processReturnType(unExpr.getValue().getExprType())
+												+ " null, " + valueVar;
+						methodCode.addBodyCode(code);
+					}
+					
 					break;
 
 				case NEGATE:
@@ -557,7 +578,46 @@ public class LlvmGenerator
 		}
 		else if(expr instanceof LetExpr)
 		{
+			LetExpr let = (LetExpr) expr;
+			for(Variable var : let.getDecl())
+			{
+				if(var.getValue() != null)
+				{
+					String valueName = this.processMethodExpr(var.getValue(), let.getScope(), methodCode);;
+					String varType = this.processReturnType(var.getValue().getExprType());
+					variableName = "%." + let.getScope().getField(var.getId()).getClassScope().getClassType() + "." + var.getId();
+					String code = variableName + "= ";
+					if(varType.equals("i32") || varType.equals("i1"))
+					{
+						code += "add " + varType + " 0, " +  valueName;
+					}
+					else
+					{
+						code += "getelementptr " + varType + " " + valueName;
+					}
+					methodCode.addBodyCode(code);
+				}
+				else
+				{
+					variableName = "%." + let.getScope().getField(var.getId()).getClassScope().getClassType() + "." + var.getId();
+					String code = variableName + " = ";
+					if(var.getType().equals("Int") || var.getType().equals("Bool"))
+					{
+						code += "add " + this.processReturnType(var.getType()) + " 0, 0";
+					}
+					else if(var.getType().equals("String"))
+					{
+						code += "getelementptr inbounds ([1 x i8]* @.empty_str, i64 0, i64 0)";
+					}
+					else
+					{
+						code += "getelementptr " + this.processReturnType(var.getType()) + " null";
+					}
+					methodCode.addBodyCode(code);
+				}
+			}
 			
+			variableName = this.processMethodExpr(let.getValue(), let.getScope(), methodCode);
 		}
 		else if(expr instanceof IdExpr)
 		{
@@ -580,7 +640,7 @@ public class LlvmGenerator
 				code = variableName + " = load " + this.processReturnType(id.getExprType()) + "* " + varPtr;
 				methodCode.addBodyCode(code);
 			}
-			else if(field.getParent() instanceof MethodScope)
+			else
 			{
 				variableName = "%." + field.getClassScope().getClassType() + "." + id.getId();
 			}

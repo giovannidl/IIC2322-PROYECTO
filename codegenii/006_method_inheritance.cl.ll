@@ -97,6 +97,8 @@ define %Sequoia* @_newSequoia()
 	%class_type = getelementptr %Sequoia* %self, i32 0, i32 0
 	store i8* bitcast([8 x i8]* @_type_Sequoia to i8*), i8** %class_type
 
+	%_var60 = getelementptr inbounds %Sequoia* %self, i32 0, i32 1
+	store %Object* null, %Object** %_var60
 	ret %Sequoia* %self
 }
 
@@ -250,25 +252,25 @@ define i8* @Nogal_getFruto(%Nogal* %self)
 
 define i8* @Manzano_getFruto(%Manzano* %self)
 {
-	%_var60 = bitcast [8 x i8]* @_string_14 to i8*
-
-	ret i8* %_var60
-}
-
-
-define i8* @ManzanoRojo_getFruto(%ManzanoRojo* %self)
-{
-	%_var61 = bitcast [13 x i8]* @_string_15 to i8*
+	%_var61 = bitcast [8 x i8]* @_string_14 to i8*
 
 	ret i8* %_var61
 }
 
 
-define i8* @GrannySmith_getFruto(%GrannySmith* %self)
+define i8* @ManzanoRojo_getFruto(%ManzanoRojo* %self)
 {
-	%_var62 = bitcast [14 x i8]* @_string_16 to i8*
+	%_var62 = bitcast [13 x i8]* @_string_15 to i8*
 
 	ret i8* %_var62
+}
+
+
+define i8* @GrannySmith_getFruto(%GrannySmith* %self)
+{
+	%_var63 = bitcast [14 x i8]* @_string_16 to i8*
+
+	ret i8* %_var63
 }
 
 
