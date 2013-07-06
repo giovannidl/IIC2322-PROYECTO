@@ -102,7 +102,9 @@ public class LlvmGenerator
 					}
 					
 					DefineMethodCode methodCode = new DefineMethodCode(method.getName(), 
-							scope.getClassType(), this.processReturnType(returnType), params);
+							scope.getClassType(), this.processReturnType(returnType), params);  
+					
+					this._buffer.addDefineMethod(methodCode);
 					
 					String returnVariable = this.processMethodExpr(method.getBody(), method.getScope()
 											, methodCode);
@@ -123,9 +125,7 @@ public class LlvmGenerator
 						returnVariable = castVar;
 					}
 					
-					methodCode.setReturnVariable(returnVariable);  
-					
-					this._buffer.addDefineMethod(methodCode);
+					methodCode.setReturnVariable(returnVariable);
 				}
 				
 				else if(feature instanceof Variable)
@@ -211,7 +211,27 @@ public class LlvmGenerator
 		}
 		else if(expr instanceof WhileExpr)
 		{
+			WhileExpr loop = (WhileExpr) expr;
 			
+			String condVar = this.processMethodExpr(loop.getCond(), scope, methodCode);
+			String[] whileNames = this._buffer.getNextWhileNames();
+			
+			String code = "br i1 " + condVar + ", label %" + whileNames[0] + ", label %" + whileNames[1];
+			methodCode.addBodyCode(code);
+			
+			methodCode.addBodyCode(whileNames[0] + ":");
+			
+			this.processMethodExpr(loop.getValue(), scope, methodCode);
+			
+			condVar = this.processMethodExpr(loop.getCond(), scope, methodCode);
+			code = "br i1 " + condVar + ", label %" + whileNames[0] + ", label %" + whileNames[1];
+			methodCode.addBodyCode(code);
+			
+			methodCode.addBodyCode(whileNames[1] + ":");
+			
+			variableName = this._buffer.getNextVariableName();
+			code = variableName + " = getelementptr %Object* null";
+			methodCode.addBodyCode(code);
 		}
 		else if(expr instanceof AssignExpr)
 		{
@@ -230,20 +250,21 @@ public class LlvmGenerator
 				code = "store " + varType + " " + variableName + ", " + varType + "* " + ptrVariable;
 				methodCode.addBodyCode(code);
 			}
-			else if(field.getParent() instanceof MethodScope)
+			else
 			{
 				String valueName = this.processMethodExpr(assExpr.getValue(), scope, methodCode);
 				String varType = this.processReturnType(assExpr.getValue().getExprType());
-				variableName = "%." + field.getClassScope().getClassType() + "." + assExpr.getId();
-				String code = variableName + "= ";
-				if(varType.equals("i32") || varType.equals("i1"))
+				
+				String allocateVar = "%_" +	field.getClassScope().getClassType() + "_" + methodCode.getName() + "_"+ assExpr.getId();
+				if(!this._buffer.isIdInitialized(allocateVar, methodCode.getName()))
 				{
-					code += "add " + varType + " 0, " +  valueName;
+					String allocateCode = allocateVar + " = alloca " + varType + ", align 4\n";
+					methodCode.addBodyCode(allocateCode);
+					this._buffer.addId(allocateVar, methodCode.getName());
 				}
-				else
-				{
-					code += "getelementptr " + varType + " " + valueName;
-				}
+				
+				variableName = valueName;
+				String code = "store " + varType + " " + valueName + ", " + varType + "* " + allocateVar;
 				methodCode.addBodyCode(code);
 			}
 		}
@@ -581,37 +602,38 @@ public class LlvmGenerator
 			LetExpr let = (LetExpr) expr;
 			for(Variable var : let.getDecl())
 			{
+				String varType = this.processReturnType(var.getType());
+				String allocateVar = "%_" +	methodCode.getClassType() + "_" + methodCode.getName() + "_"+ var.getId();
+				if(!this._buffer.isIdInitialized(allocateVar, methodCode.getName()))
+				{
+					String allocateCode = allocateVar + " = alloca " + varType + ", align 4\n";
+					methodCode.addBodyCode(allocateCode);
+					this._buffer.addId(allocateVar, methodCode.getName());
+				}
+				
 				if(var.getValue() != null)
 				{
-					String valueName = this.processMethodExpr(var.getValue(), let.getScope(), methodCode);;
-					String varType = this.processReturnType(var.getValue().getExprType());
-					variableName = "%." + let.getScope().getField(var.getId()).getClassScope().getClassType() + "." + var.getId();
-					String code = variableName + "= ";
-					if(varType.equals("i32") || varType.equals("i1"))
-					{
-						code += "add " + varType + " 0, " +  valueName;
-					}
-					else
-					{
-						code += "getelementptr " + varType + " " + valueName;
-					}
+					String valueName = this.processMethodExpr(var.getValue(), let.getScope(), methodCode);
+					
+					variableName = valueName;
+					String code = "store " + varType + " " + valueName + ", " + varType + "* " + allocateVar;
 					methodCode.addBodyCode(code);
 				}
 				else
 				{
-					variableName = "%." + let.getScope().getField(var.getId()).getClassScope().getClassType() + "." + var.getId();
-					String code = variableName + " = ";
+					String code;
 					if(var.getType().equals("Int") || var.getType().equals("Bool"))
 					{
-						code += "add " + this.processReturnType(var.getType()) + " 0, 0";
+						code = "store " + varType + " 0, " + varType + "* " + allocateVar;
 					}
 					else if(var.getType().equals("String"))
 					{
-						code += "getelementptr inbounds ([1 x i8]* @.empty_str, i64 0, i64 0)";
+						code = "store " + varType + " getelementptr inbounds ([1 x i8]* @.empty_str, i64 0, i64 0), " + 
+									varType + "* " + allocateVar;
 					}
 					else
 					{
-						code += "getelementptr " + this.processReturnType(var.getType()) + " null";
+						code = "store " + varType + " null, " + varType + "* " + allocateVar;
 					}
 					methodCode.addBodyCode(code);
 				}
@@ -642,7 +664,18 @@ public class LlvmGenerator
 			}
 			else
 			{
-				variableName = "%." + field.getClassScope().getClassType() + "." + id.getId();
+				String allocateVar = "%_" +	field.getClassScope().getClassType() + "_" + methodCode.getName() + "_"+ id.getId();
+				if(!this._buffer.isIdInitialized(allocateVar, methodCode.getName()))
+				{
+					String allocateCode = allocateVar + " = alloca " + this.processReturnType(id.getExprType()) + ", align 4\n";
+					methodCode.addBodyCode(allocateCode);
+					this._buffer.addId(allocateVar, methodCode.getName());
+				}
+						
+				variableName = this._buffer.getNextVariableName();
+				String code = variableName + " = load  " + this.processReturnType(id.getExprType()) + "* %_" + 
+							field.getClassScope().getClassType() + "_" + methodCode.getName() + "_"+ id.getId();
+				methodCode.addBodyCode(code);
 			}
 		}
 		else if(expr instanceof ValueExpr)

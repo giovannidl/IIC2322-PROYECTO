@@ -29,13 +29,22 @@ public class DefineMethodCode extends MethodCode
 				code += ", " + param[0];
 				if(param[1] != null)
 				{
-					code += " %." + this._classType + "." + param[1];
-					//TODO Falta ver los parametros inicializados
+					code += " %_" + this._classType + "_" + param[1];
 				}
 			}
 		}
 		
 		code += ")\n{\n";
+		
+		if(!this._params.isEmpty())
+		{
+			for(String[] param : this._params)
+			{
+				code += "\t%_" + this._classType + "_" + this._name + "_" + param[1] + " = alloca " + param[0] + ", align 4\n";
+				code += "\tstore " + param[0] + " %_" + this._classType + "_" + param[1] + 
+						", " + param[0] + "* %_"+ this._classType + "_" + this._name + "_" + param[1] + "\n";
+			}
+		}
 		
 		for(String exprCode : this._bodyCode)
 		{
@@ -64,5 +73,10 @@ public class DefineMethodCode extends MethodCode
 	public void setReturnVariable(String returnVariable)
 	{
 		this._returnVariable = returnVariable;
+	}
+	
+	public List < String[] > getParams()
+	{
+		return this._params;
 	}
 }

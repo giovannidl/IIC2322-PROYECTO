@@ -1,6 +1,7 @@
 package coolc.codegenerator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import coolc.ast.Case;
@@ -15,10 +16,12 @@ public class CodeBuffer
 	//Mid Buffer
 	private String _mainDefinition;
 	private List < InitializeMethodCode > _initializeMethods;
-	private List < MethodCode > _defineMethods;
+	private List < DefineMethodCode > _defineMethods;
 	
 	//Bot Buffer
 	private List <DeclareFunctionCode > _declareFunctions;
+	
+	private HashMap < String, List < String > > _idCollection;
 	
 	//La clase que contiene al main
 	private String[] _mainClass;
@@ -27,16 +30,17 @@ public class CodeBuffer
 	private int _variableNum;
 	private int _condNum;
 	private int _caseNum;
+	private int _whileNum;
 	
 	public CodeBuffer()
 	{	
 		this._classDefinitions = new ArrayList < ClassDefinitionCode >();
 		this._constantStrings = new ArrayList < ConstantStringCode >();
-		
 		this._initializeMethods = new ArrayList < InitializeMethodCode >();
-		this._defineMethods = new ArrayList < MethodCode >();
-		
+		this._defineMethods = new ArrayList < DefineMethodCode >();
 		this._declareFunctions = new ArrayList < DeclareFunctionCode >();
+		
+		this._idCollection = new HashMap < String, List < String > >();
 		
 		this._mainClass = new String[2];
 		
@@ -46,6 +50,8 @@ public class CodeBuffer
 		
 		this._variableNum = 0;
 		this._condNum = 0;
+		this._caseNum = 0;
+		this._whileNum = 0;
 	};
 	
 	public void addClassDefinition(ClassDefinitionCode code)
@@ -61,11 +67,29 @@ public class CodeBuffer
 	public void addInitializeMethod(InitializeMethodCode code)
 	{
 		this._initializeMethods.add(code);
+		this._idCollection.put(code.getName(),new ArrayList < String >());
+		
 	}
 	
-	public void addDefineMethod(MethodCode code)
+	public void addDefineMethod(DefineMethodCode code)
 	{
 		this._defineMethods.add(code);
+		List < String > ids = new ArrayList < String >();
+		for(String[] param : code.getParams())
+		{
+			ids.add("%_" + code.getClassType() + "_" + code.getName() + "_" + param[1]);
+		}
+		this._idCollection.put(code.getName(), ids);
+	}
+	
+	public void addId(String id, String method)
+	{
+		this._idCollection.get(method).add(id);
+	}
+	
+	public boolean isIdInitialized(String id, String method)
+	{
+		return this._idCollection.get(method).contains(id);
 	}
 	
 	public void addDeclareFunction(DeclareFunctionCode code)
@@ -149,6 +173,13 @@ public class CodeBuffer
 		this._caseNum++;
 		return names;
 	}
+	
+	public String[] getNextWhileNames()
+	{
+		String[] names = new String[] { "Looop" + this._whileNum, "endLooop" + this._whileNum };
+		return names;
+	}
+			
 	
 	public ClassDefinitionCode getClassDefCode(String type)
 	{

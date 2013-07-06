@@ -70,10 +70,10 @@ define %Connection* @_newConnection()
 	%class_type = getelementptr %Connection* %self, i32 0, i32 0
 	store i8* bitcast([11 x i8]* @_type_Connection to i8*), i8** %class_type
 
-	%_var16 = getelementptr inbounds %Connection* %self, i32 0, i32 1
-	%_var17 = getelementptr inbounds %Connection* %self, i32 0, i32 2
-	store i8* getelementptr inbounds ([1 x i8]* @.empty_str, i64 0, i64 0), i8** %_var16
+	%_var17 = getelementptr inbounds %Connection* %self, i32 0, i32 1
+	%_var18 = getelementptr inbounds %Connection* %self, i32 0, i32 2
 	store i8* getelementptr inbounds ([1 x i8]* @.empty_str, i64 0, i64 0), i8** %_var17
+	store i8* getelementptr inbounds ([1 x i8]* @.empty_str, i64 0, i64 0), i8** %_var18
 	ret %Connection* %self
 }
 
@@ -104,49 +104,58 @@ define i8* @Network_getHostname(%Network* %self)
 }
 
 
-define %Connection* @Network_createConnection(%Network* %self, i8* %.Network.endpoint)
+define %Connection* @Network_createConnection(%Network* %self, i8* %_Network_endpoint)
 {
+	%_Network_createConnection_endpoint = alloca i8*, align 4
+	store i8* %_Network_endpoint, i8** %_Network_createConnection_endpoint
 	%_var14 = call %Connection* @_newConnection()
-	%_var15 = call %Connection* @Connection_open(%Connection* %_var14, %Network* %self, i8* %.Network.endpoint)
+	%_var16 = load  i8** %_Network_createConnection_endpoint
+	%_var15 = call %Connection* @Connection_open(%Connection* %_var14, %Network* %self, i8* %_var16)
 
 	ret %Connection* %_var15
 }
 
 
-define %Connection* @Connection_open(%Connection* %self, %Network* %.Connection.net, i8* %.Connection.remote)
+define %Connection* @Connection_open(%Connection* %self, %Network* %_Connection_net, i8* %_Connection_remote)
 {
-	%_var18 = getelementptr inbounds %Connection* %self, i32 0, i32 1
-	store i8* %.Connection.remote, i8** %_var18
-	%_var19 = call i8* @Network_getHostname(%Network* %.Connection.net)
-
-	%_var20 = getelementptr inbounds %Connection* %self, i32 0, i32 2
+	%_Connection_open_net = alloca %Network*, align 4
+	store %Network* %_Connection_net, %Network** %_Connection_open_net
+	%_Connection_open_remote = alloca i8*, align 4
+	store i8* %_Connection_remote, i8** %_Connection_open_remote
+	%_var19 = load  i8** %_Connection_open_remote
+	%_var20 = getelementptr inbounds %Connection* %self, i32 0, i32 1
 	store i8* %_var19, i8** %_var20
-	%_var21 = bitcast %Connection* %self to %Connection*
-	ret %Connection* %_var21
+	%_var21 = load  %Network** %_Connection_open_net
+	%_var22 = call i8* @Network_getHostname(%Network* %_var21)
+
+	%_var23 = getelementptr inbounds %Connection* %self, i32 0, i32 2
+	store i8* %_var22, i8** %_var23
+	%_var24 = bitcast %Connection* %self to %Connection*
+	ret %Connection* %_var24
 }
 
 
 define i8* @Connection_getDescription(%Connection* %self)
 {
-	%_var22 = bitcast [13 x i8]* @_string_2 to i8*
+	%_var25 = bitcast [13 x i8]* @_string_2 to i8*
 
-	%_var24 = getelementptr inbounds %Connection* %self, i32 0, i32 2
-	%_var25 = load i8** %_var24
-	%_var23 = call i8* @String_concat(i8* %_var22, i8* %_var25)
+	%_var27 = getelementptr inbounds %Connection* %self, i32 0, i32 2
+	%_var28 = load i8** %_var27
+	%_var26 = call i8* @String_concat(i8* %_var25, i8* %_var28)
 
-	%_var27 = bitcast [7 x i8]* @_string_3 to i8*
+	%_var30 = bitcast [7 x i8]* @_string_3 to i8*
 
-	%_var26 = call i8* @String_concat(i8* %_var23, i8* %_var27)
+	%_var29 = call i8* @String_concat(i8* %_var26, i8* %_var30)
 
-	%_var29 = getelementptr inbounds %Connection* %self, i32 0, i32 1
-	%_var30 = load i8** %_var29
-	%_var28 = call i8* @String_concat(i8* %_var26, i8* %_var30)
+	%_var32 = getelementptr inbounds %Connection* %self, i32 0, i32 1
+	%_var33 = load i8** %_var32
+	%_var31 = call i8* @String_concat(i8* %_var29, i8* %_var33)
 
-	%_var32 = bitcast [3 x i8]* @_string_4 to i8*
+	%_var35 = bitcast [3 x i8]* @_string_4 to i8*
 
-	%_var31 = call i8* @String_concat(i8* %_var28, i8* %_var32)
+	%_var34 = call i8* @String_concat(i8* %_var31, i8* %_var35)
 
-	ret i8* %_var31
+	ret i8* %_var34
 }
 
 

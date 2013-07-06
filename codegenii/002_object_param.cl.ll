@@ -64,14 +64,17 @@ define %Object* @Program_main(%Program* %self)
 }
 
 
-define %Object* @Brocoli_print(%Brocoli* %self, %IO* %.Brocoli.iostream)
+define %Object* @Brocoli_print(%Brocoli* %self, %IO* %_Brocoli_iostream)
 {
-	%_var7 = bitcast [37 x i8]* @_string_0 to i8*
+	%_Brocoli_print_iostream = alloca %IO*, align 4
+	store %IO* %_Brocoli_iostream, %IO** %_Brocoli_print_iostream
+	%_var6 = load  %IO** %_Brocoli_print_iostream
+	%_var8 = bitcast [37 x i8]* @_string_0 to i8*
 
-	%_var6 = call %IO* @IO_out_string(%IO* %.Brocoli.iostream, i8* %_var7)
+	%_var7 = call %IO* @IO_out_string(%IO* %_var6, i8* %_var8)
 
-	%_var8 = bitcast %IO* %_var6 to %Object*
-	ret %Object* %_var8
+	%_var9 = bitcast %IO* %_var7 to %Object*
+	ret %Object* %_var9
 }
 
 

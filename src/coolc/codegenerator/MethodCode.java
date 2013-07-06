@@ -31,7 +31,7 @@ public abstract class MethodCode
 	
 	public String getName()
 	{
-		return "@" + this._classType + "_" + this._name;
+		return this._name;
 	}
 	
 	public abstract String getCode();

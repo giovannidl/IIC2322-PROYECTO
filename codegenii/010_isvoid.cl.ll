@@ -60,45 +60,57 @@ define %IO* @Program_main(%Program* %self)
 	%_var12 = icmp eq i8* null, %_var11
 	%_var9 = call %IO* @Program_printBoolean(%Program* %self, i1 %_var12)
 
-	%.Program.pot = getelementptr %IO* null
+	%_Program_main_pot = alloca %IO*, align 4
+
+	store %IO* null, %IO** %_Program_main_pot
+	%_Program_main_pantruca = alloca %Program*, align 4
+
 	%_var13 = getelementptr inbounds %Program* %self, i32 0, i32 2
 	%_var14 = load %Program** %_var13
-	%.Program.pantruca= getelementptr %Program* %_var14
-	%.Program.chemilico= add i1 0, 0
+	store %Program* %_var14, %Program** %_Program_main_pantruca
+	%_Program_main_chemilico = alloca i1, align 4
+
+	store i1 0, i1* %_Program_main_chemilico
+	%_var16 = load  i1* %_Program_main_chemilico
 	%_var15 = call %IO* @Program_printBoolean(%Program* %self, i1 0)
 
-	%_var17 = icmp eq %Program* null, %.Program.pantruca
-	%_var16 = call %IO* @Program_printBoolean(%Program* %self, i1 %_var17)
+	%_var18 = load  %Program** %_Program_main_pantruca
+	%_var19 = icmp eq %Program* null, %_var18
+	%_var17 = call %IO* @Program_printBoolean(%Program* %self, i1 %_var19)
 
-	%_var19 = icmp eq %IO* null, %.Program.pot
-	%_var18 = call %IO* @Program_printBoolean(%Program* %self, i1 %_var19)
+	%_var21 = load  %IO** %_Program_main_pot
+	%_var22 = icmp eq %IO* null, %_var21
+	%_var20 = call %IO* @Program_printBoolean(%Program* %self, i1 %_var22)
 
-	ret %IO* %_var18
+	ret %IO* %_var20
 }
 
 
-define %IO* @Program_printBoolean(%Program* %self, i1 %.Program.value)
+define %IO* @Program_printBoolean(%Program* %self, i1 %_Program_value)
 {
-	%_var20 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var21 = load %IO** %_var20
-	br i1 %.Program.value, label %cond_true0, label %cond_false0
+	%_Program_printBoolean_value = alloca i1, align 4
+	store i1 %_Program_value, i1* %_Program_printBoolean_value
+	%_var23 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var24 = load %IO** %_var23
+	%_var26 = load  i1* %_Program_printBoolean_value
+	br i1 %_var26, label %cond_true0, label %cond_false0
 	cond_true0:
-	%_var23 = bitcast [5 x i8]* @_string_0 to i8*
+	%_var27 = bitcast [5 x i8]* @_string_0 to i8*
 
 	br label %cond_next0
 	cond_false0:
-	%_var24 = bitcast [6 x i8]* @_string_1 to i8*
+	%_var28 = bitcast [6 x i8]* @_string_1 to i8*
 
 	br label %cond_next0
 	cond_next0:
-	%_var25 = phi i8* [ %_var23, %cond_true0 ], [ %_var24, %cond_false0 ]
-	%_var22 = call %IO* @IO_out_string(%IO* %_var21, i8* %_var25)
+	%_var29 = phi i8* [ %_var27, %cond_true0 ], [ %_var28, %cond_false0 ]
+	%_var25 = call %IO* @IO_out_string(%IO* %_var24, i8* %_var29)
 
-	%_var27 = bitcast [2 x i8]* @_string_2 to i8*
+	%_var31 = bitcast [2 x i8]* @_string_2 to i8*
 
-	%_var26 = call %IO* @IO_out_string(%IO* %_var22, i8* %_var27)
+	%_var30 = call %IO* @IO_out_string(%IO* %_var25, i8* %_var31)
 
-	ret %IO* %_var26
+	ret %IO* %_var30
 }
 
 
