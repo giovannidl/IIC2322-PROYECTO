@@ -1,17 +1,19 @@
-%Object = type { i8* }
-
+%Object = type { i8*}
 %IO = type { i8*}
 %Program = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
-%MachineCode = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
-%X86 = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
-%ARM16 = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
-%VirtualMachine = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
-%LLVM = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
-%CIL = type { i8*, %IO*, %X86*, %ARM16*, %LLVM*, %CIL*}
+%Computer = type { i8*}
+%MachineCode = type { i8*}
+%X86 = type { i8*}
+%ARM16 = type { i8*}
+%VirtualMachine = type { i8*}
+%LLVM = type { i8*}
+%CIL = type { i8*}
 
 @.empty_str = private unnamed_addr constant [1 x i8] c"\00"
+@_type_Object = internal constant [7 x i8] c"Object\00"
 @_type_IO = internal constant [3 x i8] c"IO\00"
 @_type_Program = internal constant [8 x i8] c"Program\00"
+@_type_Computer = internal constant [9 x i8] c"Computer\00"
 @_type_MachineCode = internal constant [12 x i8] c"MachineCode\00"
 @_type_X86 = internal constant [4 x i8] c"X86\00"
 @_type_ARM16 = internal constant [6 x i8] c"ARM16\00"
@@ -82,6 +84,17 @@ define %Program* @_newProgram()
 }
 
 
+define %Computer* @_newComputer()
+{
+	%vptr = call i8* @malloc(i64 ptrtoint (%Computer* getelementptr (%Computer* null , i32 1) to i64))
+	%self = bitcast i8* %vptr to %Computer*
+	%class_type = getelementptr %Computer* %self, i32 0, i32 0
+	store i8* bitcast([9 x i8]* @_type_Computer to i8*), i8** %class_type
+
+	ret %Computer* %self
+}
+
+
 define %MachineCode* @_newMachineCode()
 {
 	%vptr = call i8* @malloc(i64 ptrtoint (%MachineCode* getelementptr (%MachineCode* null , i32 1) to i64))
@@ -89,21 +102,6 @@ define %MachineCode* @_newMachineCode()
 	%class_type = getelementptr %MachineCode* %self, i32 0, i32 0
 	store i8* bitcast([12 x i8]* @_type_MachineCode to i8*), i8** %class_type
 
-	%_var1 = getelementptr inbounds %MachineCode* %self, i32 0, i32 1
-	%_var3 = getelementptr inbounds %MachineCode* %self, i32 0, i32 2
-	%_var5 = getelementptr inbounds %MachineCode* %self, i32 0, i32 3
-	%_var7 = getelementptr inbounds %MachineCode* %self, i32 0, i32 4
-	%_var9 = getelementptr inbounds %MachineCode* %self, i32 0, i32 5
-	%_var0 = call %IO* @_newIO()
-	store %IO* %_var0, %IO** %_var1
-	%_var2 = call %X86* @_newX86()
-	store %X86* %_var2, %X86** %_var3
-	%_var4 = call %ARM16* @_newARM16()
-	store %ARM16* %_var4, %ARM16** %_var5
-	%_var6 = call %LLVM* @_newLLVM()
-	store %LLVM* %_var6, %LLVM** %_var7
-	%_var8 = call %CIL* @_newCIL()
-	store %CIL* %_var8, %CIL** %_var9
 	ret %MachineCode* %self
 }
 
@@ -115,21 +113,6 @@ define %X86* @_newX86()
 	%class_type = getelementptr %X86* %self, i32 0, i32 0
 	store i8* bitcast([4 x i8]* @_type_X86 to i8*), i8** %class_type
 
-	%_var1 = getelementptr inbounds %X86* %self, i32 0, i32 1
-	%_var3 = getelementptr inbounds %X86* %self, i32 0, i32 2
-	%_var5 = getelementptr inbounds %X86* %self, i32 0, i32 3
-	%_var7 = getelementptr inbounds %X86* %self, i32 0, i32 4
-	%_var9 = getelementptr inbounds %X86* %self, i32 0, i32 5
-	%_var0 = call %IO* @_newIO()
-	store %IO* %_var0, %IO** %_var1
-	%_var2 = call %X86* @_newX86()
-	store %X86* %_var2, %X86** %_var3
-	%_var4 = call %ARM16* @_newARM16()
-	store %ARM16* %_var4, %ARM16** %_var5
-	%_var6 = call %LLVM* @_newLLVM()
-	store %LLVM* %_var6, %LLVM** %_var7
-	%_var8 = call %CIL* @_newCIL()
-	store %CIL* %_var8, %CIL** %_var9
 	ret %X86* %self
 }
 
@@ -141,21 +124,6 @@ define %ARM16* @_newARM16()
 	%class_type = getelementptr %ARM16* %self, i32 0, i32 0
 	store i8* bitcast([6 x i8]* @_type_ARM16 to i8*), i8** %class_type
 
-	%_var1 = getelementptr inbounds %ARM16* %self, i32 0, i32 1
-	%_var3 = getelementptr inbounds %ARM16* %self, i32 0, i32 2
-	%_var5 = getelementptr inbounds %ARM16* %self, i32 0, i32 3
-	%_var7 = getelementptr inbounds %ARM16* %self, i32 0, i32 4
-	%_var9 = getelementptr inbounds %ARM16* %self, i32 0, i32 5
-	%_var0 = call %IO* @_newIO()
-	store %IO* %_var0, %IO** %_var1
-	%_var2 = call %X86* @_newX86()
-	store %X86* %_var2, %X86** %_var3
-	%_var4 = call %ARM16* @_newARM16()
-	store %ARM16* %_var4, %ARM16** %_var5
-	%_var6 = call %LLVM* @_newLLVM()
-	store %LLVM* %_var6, %LLVM** %_var7
-	%_var8 = call %CIL* @_newCIL()
-	store %CIL* %_var8, %CIL** %_var9
 	ret %ARM16* %self
 }
 
@@ -167,21 +135,6 @@ define %VirtualMachine* @_newVirtualMachine()
 	%class_type = getelementptr %VirtualMachine* %self, i32 0, i32 0
 	store i8* bitcast([15 x i8]* @_type_VirtualMachine to i8*), i8** %class_type
 
-	%_var1 = getelementptr inbounds %VirtualMachine* %self, i32 0, i32 1
-	%_var3 = getelementptr inbounds %VirtualMachine* %self, i32 0, i32 2
-	%_var5 = getelementptr inbounds %VirtualMachine* %self, i32 0, i32 3
-	%_var7 = getelementptr inbounds %VirtualMachine* %self, i32 0, i32 4
-	%_var9 = getelementptr inbounds %VirtualMachine* %self, i32 0, i32 5
-	%_var0 = call %IO* @_newIO()
-	store %IO* %_var0, %IO** %_var1
-	%_var2 = call %X86* @_newX86()
-	store %X86* %_var2, %X86** %_var3
-	%_var4 = call %ARM16* @_newARM16()
-	store %ARM16* %_var4, %ARM16** %_var5
-	%_var6 = call %LLVM* @_newLLVM()
-	store %LLVM* %_var6, %LLVM** %_var7
-	%_var8 = call %CIL* @_newCIL()
-	store %CIL* %_var8, %CIL** %_var9
 	ret %VirtualMachine* %self
 }
 
@@ -193,21 +146,6 @@ define %LLVM* @_newLLVM()
 	%class_type = getelementptr %LLVM* %self, i32 0, i32 0
 	store i8* bitcast([5 x i8]* @_type_LLVM to i8*), i8** %class_type
 
-	%_var1 = getelementptr inbounds %LLVM* %self, i32 0, i32 1
-	%_var3 = getelementptr inbounds %LLVM* %self, i32 0, i32 2
-	%_var5 = getelementptr inbounds %LLVM* %self, i32 0, i32 3
-	%_var7 = getelementptr inbounds %LLVM* %self, i32 0, i32 4
-	%_var9 = getelementptr inbounds %LLVM* %self, i32 0, i32 5
-	%_var0 = call %IO* @_newIO()
-	store %IO* %_var0, %IO** %_var1
-	%_var2 = call %X86* @_newX86()
-	store %X86* %_var2, %X86** %_var3
-	%_var4 = call %ARM16* @_newARM16()
-	store %ARM16* %_var4, %ARM16** %_var5
-	%_var6 = call %LLVM* @_newLLVM()
-	store %LLVM* %_var6, %LLVM** %_var7
-	%_var8 = call %CIL* @_newCIL()
-	store %CIL* %_var8, %CIL** %_var9
 	ret %LLVM* %self
 }
 
@@ -219,21 +157,6 @@ define %CIL* @_newCIL()
 	%class_type = getelementptr %CIL* %self, i32 0, i32 0
 	store i8* bitcast([4 x i8]* @_type_CIL to i8*), i8** %class_type
 
-	%_var1 = getelementptr inbounds %CIL* %self, i32 0, i32 1
-	%_var3 = getelementptr inbounds %CIL* %self, i32 0, i32 2
-	%_var5 = getelementptr inbounds %CIL* %self, i32 0, i32 3
-	%_var7 = getelementptr inbounds %CIL* %self, i32 0, i32 4
-	%_var9 = getelementptr inbounds %CIL* %self, i32 0, i32 5
-	%_var0 = call %IO* @_newIO()
-	store %IO* %_var0, %IO** %_var1
-	%_var2 = call %X86* @_newX86()
-	store %X86* %_var2, %X86** %_var3
-	%_var4 = call %ARM16* @_newARM16()
-	store %ARM16* %_var4, %ARM16** %_var5
-	%_var6 = call %LLVM* @_newLLVM()
-	store %LLVM* %_var6, %LLVM** %_var7
-	%_var8 = call %CIL* @_newCIL()
-	store %CIL* %_var8, %CIL** %_var9
 	ret %CIL* %self
 }
 
@@ -248,246 +171,208 @@ define %Object* @Program_main(%Program* %self)
 
 	%_var12 = call %IO* @IO_out_string(%IO* %_var11, i8* %_var15)
 
-	%_var17 = load [2 x i8]* @_string_0
+	%_var17 = bitcast [2 x i8]* @_string_0 to i8*
 
-	%_var18 = bitcast [2 x i8]* @_string_0 to i8*
+	%_var16 = call %IO* @IO_out_string(%IO* %_var12, i8* %_var17)
 
-	%_var16 = call %IO* @IO_out_string(%IO* %_var12, i8* %_var18)
+	%_var18 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var19 = load %IO** %_var18
+	%_var21 = getelementptr inbounds %Program* %self, i32 0, i32 2
+	%_var22 = load %X86** %_var21
+	%_var24 = bitcast %X86* %_var22 to %MachineCode*
+	%_var23 = call i8* @MachineCode_platform(%MachineCode* %_var24)
 
-	%_var19 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var20 = load %IO** %_var19
-	%_var22 = getelementptr inbounds %Program* %self, i32 0, i32 2
-	%_var23 = load %X86** %_var22
-	%_var25 = bitcast %X86* %_var23 to %MachineCode*
-	%_var24 = call i8* @MachineCode_platform(%MachineCode* %_var25)
+	%_var20 = call %IO* @IO_out_string(%IO* %_var19, i8* %_var23)
 
-	%_var21 = call %IO* @IO_out_string(%IO* %_var20, i8* %_var24)
+	%_var26 = bitcast [2 x i8]* @_string_1 to i8*
 
-	%_var27 = load [2 x i8]* @_string_1
+	%_var25 = call %IO* @IO_out_string(%IO* %_var20, i8* %_var26)
 
-	%_var28 = bitcast [2 x i8]* @_string_1 to i8*
+	%_var27 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var28 = load %IO** %_var27
+	%_var30 = getelementptr inbounds %Program* %self, i32 0, i32 2
+	%_var31 = load %X86** %_var30
+	%_var33 = bitcast %X86* %_var31 to %Computer*
+	%_var32 = call i8* @Computer_platform(%Computer* %_var33)
 
-	%_var26 = call %IO* @IO_out_string(%IO* %_var21, i8* %_var28)
+	%_var29 = call %IO* @IO_out_string(%IO* %_var28, i8* %_var32)
 
-	%_var29 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var30 = load %IO** %_var29
-	%_var32 = getelementptr inbounds %Program* %self, i32 0, i32 2
-	%_var33 = load %X86** %_var32
-	%_var35 = bitcast %X86* %_var33 to %Program*
-	%_var34 = call i8* @Program_platform(%Program* %_var35)
+	%_var35 = bitcast [2 x i8]* @_string_2 to i8*
 
-	%_var31 = call %IO* @IO_out_string(%IO* %_var30, i8* %_var34)
+	%_var34 = call %IO* @IO_out_string(%IO* %_var29, i8* %_var35)
 
-	%_var37 = load [2 x i8]* @_string_2
+	%_var36 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var37 = load %IO** %_var36
+	%_var39 = getelementptr inbounds %Program* %self, i32 0, i32 3
+	%_var40 = load %ARM16** %_var39
+	%_var41 = call i8* @ARM16_platform(%ARM16* %_var40)
 
-	%_var38 = bitcast [2 x i8]* @_string_2 to i8*
+	%_var38 = call %IO* @IO_out_string(%IO* %_var37, i8* %_var41)
 
-	%_var36 = call %IO* @IO_out_string(%IO* %_var31, i8* %_var38)
+	%_var43 = bitcast [2 x i8]* @_string_3 to i8*
 
-	%_var39 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var40 = load %IO** %_var39
-	%_var42 = getelementptr inbounds %Program* %self, i32 0, i32 3
-	%_var43 = load %ARM16** %_var42
-	%_var44 = call i8* @ARM16_platform(%ARM16* %_var43)
+	%_var42 = call %IO* @IO_out_string(%IO* %_var38, i8* %_var43)
 
-	%_var41 = call %IO* @IO_out_string(%IO* %_var40, i8* %_var44)
+	%_var44 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var45 = load %IO** %_var44
+	%_var47 = getelementptr inbounds %Program* %self, i32 0, i32 3
+	%_var48 = load %ARM16** %_var47
+	%_var50 = bitcast %ARM16* %_var48 to %MachineCode*
+	%_var49 = call i8* @MachineCode_platform(%MachineCode* %_var50)
 
-	%_var46 = load [2 x i8]* @_string_3
+	%_var46 = call %IO* @IO_out_string(%IO* %_var45, i8* %_var49)
 
-	%_var47 = bitcast [2 x i8]* @_string_3 to i8*
+	%_var52 = bitcast [2 x i8]* @_string_4 to i8*
 
-	%_var45 = call %IO* @IO_out_string(%IO* %_var41, i8* %_var47)
+	%_var51 = call %IO* @IO_out_string(%IO* %_var46, i8* %_var52)
 
-	%_var48 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var49 = load %IO** %_var48
-	%_var51 = getelementptr inbounds %Program* %self, i32 0, i32 3
-	%_var52 = load %ARM16** %_var51
-	%_var54 = bitcast %ARM16* %_var52 to %MachineCode*
-	%_var53 = call i8* @MachineCode_platform(%MachineCode* %_var54)
+	%_var53 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var54 = load %IO** %_var53
+	%_var56 = getelementptr inbounds %Program* %self, i32 0, i32 3
+	%_var57 = load %ARM16** %_var56
+	%_var59 = bitcast %ARM16* %_var57 to %Computer*
+	%_var58 = call i8* @Computer_platform(%Computer* %_var59)
 
-	%_var50 = call %IO* @IO_out_string(%IO* %_var49, i8* %_var53)
+	%_var55 = call %IO* @IO_out_string(%IO* %_var54, i8* %_var58)
 
-	%_var56 = load [2 x i8]* @_string_4
+	%_var61 = bitcast [2 x i8]* @_string_5 to i8*
 
-	%_var57 = bitcast [2 x i8]* @_string_4 to i8*
+	%_var60 = call %IO* @IO_out_string(%IO* %_var55, i8* %_var61)
 
-	%_var55 = call %IO* @IO_out_string(%IO* %_var50, i8* %_var57)
+	%_var62 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var63 = load %IO** %_var62
+	%_var65 = getelementptr inbounds %Program* %self, i32 0, i32 4
+	%_var66 = load %LLVM** %_var65
+	%_var67 = call i8* @LLVM_platform(%LLVM* %_var66)
 
-	%_var58 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var59 = load %IO** %_var58
-	%_var61 = getelementptr inbounds %Program* %self, i32 0, i32 3
-	%_var62 = load %ARM16** %_var61
-	%_var64 = bitcast %ARM16* %_var62 to %Program*
-	%_var63 = call i8* @Program_platform(%Program* %_var64)
+	%_var64 = call %IO* @IO_out_string(%IO* %_var63, i8* %_var67)
 
-	%_var60 = call %IO* @IO_out_string(%IO* %_var59, i8* %_var63)
+	%_var69 = bitcast [2 x i8]* @_string_6 to i8*
 
-	%_var66 = load [2 x i8]* @_string_5
+	%_var68 = call %IO* @IO_out_string(%IO* %_var64, i8* %_var69)
 
-	%_var67 = bitcast [2 x i8]* @_string_5 to i8*
+	%_var70 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var71 = load %IO** %_var70
+	%_var73 = getelementptr inbounds %Program* %self, i32 0, i32 4
+	%_var74 = load %LLVM** %_var73
+	%_var76 = bitcast %LLVM* %_var74 to %VirtualMachine*
+	%_var75 = call i8* @VirtualMachine_platform(%VirtualMachine* %_var76)
 
-	%_var65 = call %IO* @IO_out_string(%IO* %_var60, i8* %_var67)
+	%_var72 = call %IO* @IO_out_string(%IO* %_var71, i8* %_var75)
 
-	%_var68 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var69 = load %IO** %_var68
-	%_var71 = getelementptr inbounds %Program* %self, i32 0, i32 4
-	%_var72 = load %LLVM** %_var71
-	%_var73 = call i8* @LLVM_platform(%LLVM* %_var72)
+	%_var78 = bitcast [2 x i8]* @_string_7 to i8*
 
-	%_var70 = call %IO* @IO_out_string(%IO* %_var69, i8* %_var73)
+	%_var77 = call %IO* @IO_out_string(%IO* %_var72, i8* %_var78)
 
-	%_var75 = load [2 x i8]* @_string_6
+	%_var79 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var80 = load %IO** %_var79
+	%_var82 = getelementptr inbounds %Program* %self, i32 0, i32 4
+	%_var83 = load %LLVM** %_var82
+	%_var85 = bitcast %LLVM* %_var83 to %Computer*
+	%_var84 = call i8* @Computer_platform(%Computer* %_var85)
 
-	%_var76 = bitcast [2 x i8]* @_string_6 to i8*
+	%_var81 = call %IO* @IO_out_string(%IO* %_var80, i8* %_var84)
 
-	%_var74 = call %IO* @IO_out_string(%IO* %_var70, i8* %_var76)
+	%_var87 = bitcast [2 x i8]* @_string_8 to i8*
 
-	%_var77 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var78 = load %IO** %_var77
-	%_var80 = getelementptr inbounds %Program* %self, i32 0, i32 4
-	%_var81 = load %LLVM** %_var80
-	%_var83 = bitcast %LLVM* %_var81 to %VirtualMachine*
-	%_var82 = call i8* @VirtualMachine_platform(%VirtualMachine* %_var83)
+	%_var86 = call %IO* @IO_out_string(%IO* %_var81, i8* %_var87)
 
-	%_var79 = call %IO* @IO_out_string(%IO* %_var78, i8* %_var82)
+	%_var88 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var89 = load %IO** %_var88
+	%_var91 = getelementptr inbounds %Program* %self, i32 0, i32 5
+	%_var92 = load %CIL** %_var91
+	%_var93 = call i8* @CIL_platform(%CIL* %_var92)
 
-	%_var85 = load [2 x i8]* @_string_7
+	%_var90 = call %IO* @IO_out_string(%IO* %_var89, i8* %_var93)
 
-	%_var86 = bitcast [2 x i8]* @_string_7 to i8*
+	%_var95 = bitcast [2 x i8]* @_string_9 to i8*
 
-	%_var84 = call %IO* @IO_out_string(%IO* %_var79, i8* %_var86)
+	%_var94 = call %IO* @IO_out_string(%IO* %_var90, i8* %_var95)
 
-	%_var87 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var88 = load %IO** %_var87
-	%_var90 = getelementptr inbounds %Program* %self, i32 0, i32 4
-	%_var91 = load %LLVM** %_var90
-	%_var93 = bitcast %LLVM* %_var91 to %Program*
-	%_var92 = call i8* @Program_platform(%Program* %_var93)
+	%_var96 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var97 = load %IO** %_var96
+	%_var99 = getelementptr inbounds %Program* %self, i32 0, i32 5
+	%_var100 = load %CIL** %_var99
+	%_var102 = bitcast %CIL* %_var100 to %VirtualMachine*
+	%_var101 = call i8* @VirtualMachine_platform(%VirtualMachine* %_var102)
 
-	%_var89 = call %IO* @IO_out_string(%IO* %_var88, i8* %_var92)
+	%_var98 = call %IO* @IO_out_string(%IO* %_var97, i8* %_var101)
 
-	%_var95 = load [2 x i8]* @_string_8
+	%_var104 = bitcast [2 x i8]* @_string_10 to i8*
 
-	%_var96 = bitcast [2 x i8]* @_string_8 to i8*
+	%_var103 = call %IO* @IO_out_string(%IO* %_var98, i8* %_var104)
 
-	%_var94 = call %IO* @IO_out_string(%IO* %_var89, i8* %_var96)
+	%_var105 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var106 = load %IO** %_var105
+	%_var108 = getelementptr inbounds %Program* %self, i32 0, i32 5
+	%_var109 = load %CIL** %_var108
+	%_var111 = bitcast %CIL* %_var109 to %Computer*
+	%_var110 = call i8* @Computer_platform(%Computer* %_var111)
 
-	%_var97 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var98 = load %IO** %_var97
-	%_var100 = getelementptr inbounds %Program* %self, i32 0, i32 5
-	%_var101 = load %CIL** %_var100
-	%_var102 = call i8* @CIL_platform(%CIL* %_var101)
+	%_var107 = call %IO* @IO_out_string(%IO* %_var106, i8* %_var110)
 
-	%_var99 = call %IO* @IO_out_string(%IO* %_var98, i8* %_var102)
+	%_var113 = bitcast [2 x i8]* @_string_11 to i8*
 
-	%_var104 = load [2 x i8]* @_string_9
+	%_var112 = call %IO* @IO_out_string(%IO* %_var107, i8* %_var113)
 
-	%_var105 = bitcast [2 x i8]* @_string_9 to i8*
-
-	%_var103 = call %IO* @IO_out_string(%IO* %_var99, i8* %_var105)
-
-	%_var106 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var107 = load %IO** %_var106
-	%_var109 = getelementptr inbounds %Program* %self, i32 0, i32 5
-	%_var110 = load %CIL** %_var109
-	%_var112 = bitcast %CIL* %_var110 to %VirtualMachine*
-	%_var111 = call i8* @VirtualMachine_platform(%VirtualMachine* %_var112)
-
-	%_var108 = call %IO* @IO_out_string(%IO* %_var107, i8* %_var111)
-
-	%_var114 = load [2 x i8]* @_string_10
-
-	%_var115 = bitcast [2 x i8]* @_string_10 to i8*
-
-	%_var113 = call %IO* @IO_out_string(%IO* %_var108, i8* %_var115)
-
-	%_var116 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var117 = load %IO** %_var116
-	%_var119 = getelementptr inbounds %Program* %self, i32 0, i32 5
-	%_var120 = load %CIL** %_var119
-	%_var122 = bitcast %CIL* %_var120 to %Program*
-	%_var121 = call i8* @Program_platform(%Program* %_var122)
-
-	%_var118 = call %IO* @IO_out_string(%IO* %_var117, i8* %_var121)
-
-	%_var124 = load [2 x i8]* @_string_11
-
-	%_var125 = bitcast [2 x i8]* @_string_11 to i8*
-
-	%_var123 = call %IO* @IO_out_string(%IO* %_var118, i8* %_var125)
-
-	%_var126 = bitcast %IO* %_var123 to %Object*
-	ret %Object* %_var126
+	%_var114 = bitcast %IO* %_var112 to %Object*
+	ret %Object* %_var114
 }
 
 
-define i8* @Program_platform(%Program* %self)
+define i8* @Computer_platform(%Computer* %self)
 {
-	%_var127 = load [9 x i8]* @_string_12
+	%_var115 = bitcast [9 x i8]* @_string_12 to i8*
 
-	%_var128 = bitcast [9 x i8]* @_string_12 to i8*
-
-	ret i8* %_var128
+	ret i8* %_var115
 }
 
 
 define i8* @MachineCode_platform(%MachineCode* %self)
 {
-	%_var129 = load [7 x i8]* @_string_13
+	%_var116 = bitcast [7 x i8]* @_string_13 to i8*
 
-	%_var130 = bitcast [7 x i8]* @_string_13 to i8*
-
-	ret i8* %_var130
+	ret i8* %_var116
 }
 
 
 define i8* @X86_platform(%X86* %self)
 {
-	%_var131 = load [11 x i8]* @_string_14
+	%_var117 = bitcast [11 x i8]* @_string_14 to i8*
 
-	%_var132 = bitcast [11 x i8]* @_string_14 to i8*
-
-	ret i8* %_var132
+	ret i8* %_var117
 }
 
 
 define i8* @ARM16_platform(%ARM16* %self)
 {
-	%_var133 = load [12 x i8]* @_string_15
+	%_var118 = bitcast [12 x i8]* @_string_15 to i8*
 
-	%_var134 = bitcast [12 x i8]* @_string_15 to i8*
-
-	ret i8* %_var134
+	ret i8* %_var118
 }
 
 
 define i8* @VirtualMachine_platform(%VirtualMachine* %self)
 {
-	%_var135 = load [8 x i8]* @_string_16
+	%_var119 = bitcast [8 x i8]* @_string_16 to i8*
 
-	%_var136 = bitcast [8 x i8]* @_string_16 to i8*
-
-	ret i8* %_var136
+	ret i8* %_var119
 }
 
 
 define i8* @LLVM_platform(%LLVM* %self)
 {
-	%_var137 = load [8 x i8]* @_string_17
+	%_var120 = bitcast [8 x i8]* @_string_17 to i8*
 
-	%_var138 = bitcast [8 x i8]* @_string_17 to i8*
-
-	ret i8* %_var138
+	ret i8* %_var120
 }
 
 
 define i8* @CIL_platform(%CIL* %self)
 {
-	%_var139 = load [4 x i8]* @_string_18
+	%_var121 = bitcast [4 x i8]* @_string_18 to i8*
 
-	%_var140 = bitcast [4 x i8]* @_string_18 to i8*
-
-	ret i8* %_var140
+	ret i8* %_var121
 }
 
 

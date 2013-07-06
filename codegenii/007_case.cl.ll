@@ -126,110 +126,120 @@ define %Object* @Program_main(%Program* %self)
 }
 
 
-define %Object* @Program_print(%Program* %self, %Object* %.Program.o)
+define %Object* @Program_print(%Program* %self, %Object* %_Program_o)
 {
-	%_var15 = getelementptr %Object* %.Program.o, i32 0, i32 0
-	%_var16 = bitcast i8** %_var15 to i8*
-	%_var17 = bitcast [8 x i8]* @_type_Trabajo to i8*
+	%_Program_print_o = alloca %Object*, align 4
+	store %Object* %_Program_o, %Object** %_Program_print_o
+	%_var15 = load  %Object** %_Program_print_o
+	%_var16 = getelementptr %Object* %_var15, i32 0, i32 0
+	%_var17 = bitcast i8** %_var16 to i8*
+	%_var18 = bitcast [8 x i8]* @_type_Trabajo to i8*
 
-	%_var18 = call i32 @strcmp(i8* %_var16, i8* %_var17)
-	%_var19 = icmp eq i32 0, %_var18
-	br i1 %_var19, label %Trabajo0, label %FalseJump0_0
+	%_var19 = call i32 @strcmp(i8* %_var17, i8* %_var18)
+	%_var20 = icmp eq i32 0, %_var19
+	br i1 %_var20, label %Trabajo0, label %FalseJump0_0
 	FalseJump0_0:
-	%_var20 = bitcast [9 x i8]* @_type_Deportes to i8*
+	%_var21 = bitcast [9 x i8]* @_type_Deportes to i8*
 
-	%_var21 = call i32 @strcmp(i8* %_var16, i8* %_var20)
-	%_var22 = icmp eq i32 0, %_var21
-	br i1 %_var22, label %Deportes0, label %FalseJump0_1
+	%_var22 = call i32 @strcmp(i8* %_var17, i8* %_var21)
+	%_var23 = icmp eq i32 0, %_var22
+	br i1 %_var23, label %Deportes0, label %FalseJump0_1
 	FalseJump0_1:
-	%_var23 = bitcast [10 x i8]* @_type_Diversion to i8*
+	%_var24 = bitcast [10 x i8]* @_type_Diversion to i8*
 
-	%_var24 = call i32 @strcmp(i8* %_var16, i8* %_var23)
-	%_var25 = icmp eq i32 0, %_var24
-	br i1 %_var25, label %Diversion0, label %FalseJump0_2
+	%_var25 = call i32 @strcmp(i8* %_var17, i8* %_var24)
+	%_var26 = icmp eq i32 0, %_var25
+	br i1 %_var26, label %Diversion0, label %FalseJump0_2
 	FalseJump0_2:
-	%_var26 = bitcast [7 x i8]* @_type_Object to i8*
+	%_var27 = bitcast [7 x i8]* @_type_Object to i8*
 
-	%_var27 = call i32 @strcmp(i8* %_var16, i8* %_var26)
-	%_var28 = icmp eq i32 0, %_var27
-	br i1 %_var28, label %Object0, label %FalseJump0_3
+	%_var28 = call i32 @strcmp(i8* %_var17, i8* %_var27)
+	%_var29 = icmp eq i32 0, %_var28
+	br i1 %_var29, label %Object0, label %FalseJump0_3
 	Trabajo0:
-	%.Trabajo.work = bitcast %Object* %.Program.o to %Trabajo*
-	%_var29 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var30 = load %IO** %_var29
-	%_var32 = bitcast [15 x i8]* @_string_0 to i8*
+	%_Program_print_work = alloca %Trabajo*, align 4
 
-	%_var31 = call %IO* @IO_out_string(%IO* %_var30, i8* %_var32)
+	br i1 %_var29, label %Object0, label %FalseJump0_3
+	%_var30 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var31 = load %IO** %_var30
+	%_var33 = bitcast [15 x i8]* @_string_0 to i8*
 
-	%_var35 = bitcast %Program* %self to %Trabajo*
-	%_var34 = call i8* @Trabajo_getEmpresa(%Trabajo* %_var35)
+	%_var32 = call %IO* @IO_out_string(%IO* %_var31, i8* %_var33)
 
-	%_var33 = call %IO* @IO_out_string(%IO* %_var31, i8* %_var34)
+	%_var35 = load  %Trabajo** %_Program_print_work
+	%_var36 = call i8* @Trabajo_getEmpresa(%Trabajo* %_var35)
 
-	%_var37 = bitcast [2 x i8]* @_string_1 to i8*
+	%_var34 = call %IO* @IO_out_string(%IO* %_var32, i8* %_var36)
 
-	%_var36 = call %IO* @IO_out_string(%IO* %_var33, i8* %_var37)
+	%_var38 = bitcast [2 x i8]* @_string_1 to i8*
+
+	%_var37 = call %IO* @IO_out_string(%IO* %_var34, i8* %_var38)
 
 	br label %final_case0
 	Deportes0:
-	%.Deportes.sport = bitcast %Object* %.Program.o to %Deportes*
-	%_var38 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var39 = load %IO** %_var38
-	%_var41 = bitcast [22 x i8]* @_string_2 to i8*
+	%_Program_print_sport = alloca %Deportes*, align 4
 
-	%_var40 = call %IO* @IO_out_string(%IO* %_var39, i8* %_var41)
+	br i1 %_var29, label %Object0, label %FalseJump0_3
+	%_var39 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var40 = load %IO** %_var39
+	%_var42 = bitcast [22 x i8]* @_string_2 to i8*
 
-	%_var44 = bitcast %Program* %self to %Deportes*
-	%_var43 = call i8* @Deportes_getFunFunFun(%Deportes* %_var44)
+	%_var41 = call %IO* @IO_out_string(%IO* %_var40, i8* %_var42)
 
-	%_var42 = call %IO* @IO_out_string(%IO* %_var40, i8* %_var43)
+	%_var44 = load  %Deportes** %_Program_print_sport
+	%_var45 = call i8* @Deportes_getFunFunFun(%Deportes* %_var44)
 
-	%_var46 = bitcast [2 x i8]* @_string_3 to i8*
+	%_var43 = call %IO* @IO_out_string(%IO* %_var41, i8* %_var45)
 
-	%_var45 = call %IO* @IO_out_string(%IO* %_var42, i8* %_var46)
+	%_var47 = bitcast [2 x i8]* @_string_3 to i8*
+
+	%_var46 = call %IO* @IO_out_string(%IO* %_var43, i8* %_var47)
 
 	br label %final_case0
 	Diversion0:
-	%.Diversion.fun = bitcast %Object* %.Program.o to %Diversion*
-	%_var47 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var48 = load %IO** %_var47
-	%_var50 = bitcast [22 x i8]* @_string_4 to i8*
+	%_Program_print_fun = alloca %Diversion*, align 4
 
-	%_var49 = call %IO* @IO_out_string(%IO* %_var48, i8* %_var50)
+	br i1 %_var29, label %Object0, label %FalseJump0_3
+	%_var48 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var49 = load %IO** %_var48
+	%_var51 = bitcast [22 x i8]* @_string_4 to i8*
 
-	%_var53 = bitcast %Program* %self to %Diversion*
-	%_var52 = call i8* @Diversion_getFunFunFun(%Diversion* %_var53)
+	%_var50 = call %IO* @IO_out_string(%IO* %_var49, i8* %_var51)
 
-	%_var51 = call %IO* @IO_out_string(%IO* %_var49, i8* %_var52)
+	%_var53 = load  %Diversion** %_Program_print_fun
+	%_var54 = call i8* @Diversion_getFunFunFun(%Diversion* %_var53)
 
-	%_var55 = bitcast [2 x i8]* @_string_5 to i8*
+	%_var52 = call %IO* @IO_out_string(%IO* %_var50, i8* %_var54)
 
-	%_var54 = call %IO* @IO_out_string(%IO* %_var51, i8* %_var55)
+	%_var56 = bitcast [2 x i8]* @_string_5 to i8*
+
+	%_var55 = call %IO* @IO_out_string(%IO* %_var52, i8* %_var56)
 
 	br label %final_case0
 	Object0:
-	%.Object.object = bitcast %Object* %.Program.o to %Object*
-	%_var56 = getelementptr inbounds %Program* %self, i32 0, i32 1
-	%_var57 = load %IO** %_var56
-	%_var59 = bitcast [8 x i8]* @_string_6 to i8*
+	%_Program_print_object = alloca %Object*, align 4
 
-	%_var58 = call %IO* @IO_out_string(%IO* %_var57, i8* %_var59)
+	br i1 %_var29, label %Object0, label %FalseJump0_3
+	%_var57 = getelementptr inbounds %Program* %self, i32 0, i32 1
+	%_var58 = load %IO** %_var57
+	%_var60 = bitcast [8 x i8]* @_string_6 to i8*
 
-	%_var62 = bitcast %Program* %self to %Object*
-	%_var61 = call i8* @Object_type_name(%Object* %_var62)
+	%_var59 = call %IO* @IO_out_string(%IO* %_var58, i8* %_var60)
 
-	%_var60 = call %IO* @IO_out_string(%IO* %_var58, i8* %_var61)
+	%_var62 = load  %Object** %_Program_print_object
+	%_var63 = call i8* @Object_type_name(%Object* %_var62)
 
-	%_var64 = bitcast [15 x i8]* @_string_7 to i8*
+	%_var61 = call %IO* @IO_out_string(%IO* %_var59, i8* %_var63)
 
-	%_var63 = call %IO* @IO_out_string(%IO* %_var60, i8* %_var64)
+	%_var65 = bitcast [15 x i8]* @_string_7 to i8*
+
+	%_var64 = call %IO* @IO_out_string(%IO* %_var61, i8* %_var65)
 
 	br label %final_case0
 	FalseJump0_3:
-	%_var65 = call %IO* @_newIO()
 	br label %final_case0
 	final_case0:
-	%_var66 = phi %IO* [ %_var36, %Trabajo0 ],[ %_var45, %Deportes0 ],[ %_var54, %Diversion0 ],[ %_var63, %Object0 ],[ %_var65, %FalseJump0_3]
+	%_var66 = phi %IO* [ %_var37, %Trabajo0 ],[ %_var46, %Deportes0 ],[ %_var55, %Diversion0 ],[ %_var64, %Object0 ],[ null, %FalseJump0_3]
 	%_var67 = bitcast %IO* %_var66 to %Object*
 	ret %Object* %_var67
 }

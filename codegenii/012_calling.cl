@@ -6,34 +6,34 @@ class Program {
     llvm : LLVM <- new LLVM;
     puntonet : CIL <- new CIL;
 
-
     main() : Object {{
         iostream.out_string(pc.platform()).out_string("\n"); -- Intel i686
         iostream.out_string(pc@MachineCode.platform()).out_string("\n"); -- Native
-        iostream.out_string(pc@Program.platform()).out_string("\n"); -- Computer
+        iostream.out_string(pc@Computer.platform()).out_string("\n"); -- Computer
 
         iostream.out_string(lo_mobile.platform()).out_string("\n"); -- ARMv6 Thumb
         iostream.out_string(lo_mobile@MachineCode.platform()).out_string("\n"); -- Native
-        iostream.out_string(lo_mobile@Program.platform()).out_string("\n"); -- Computer
+        iostream.out_string(lo_mobile@Computer.platform()).out_string("\n"); -- Computer
 
         iostream.out_string(llvm.platform()).out_string("\n"); -- LLVM IR
         iostream.out_string(llvm@VirtualMachine.platform()).out_string("\n"); -- Virtual
-        iostream.out_string(llvm@Program.platform()).out_string("\n"); -- Computer
+        iostream.out_string(llvm@Computer.platform()).out_string("\n"); -- Computer
 
         iostream.out_string(puntonet.platform()).out_string("\n"); -- CIL        
         iostream.out_string(puntonet@VirtualMachine.platform()).out_string("\n"); -- Virtual
-        iostream.out_string(puntonet@Program.platform()).out_string("\n"); -- Computer
-
-
-
+        iostream.out_string(puntonet@Computer.platform()).out_string("\n"); -- Computer
     }};
+
+};
+
+class Computer {
 
     platform() : String {
         "Computer"
     };
 };
 
-class MachineCode inherits Program {
+class MachineCode inherits Computer {
     platform() : String {
         "Native"
     };
@@ -51,7 +51,7 @@ class ARM16 inherits MachineCode {
     };
 };
 
-class VirtualMachine inherits Program {
+class VirtualMachine inherits Computer {
     platform() : String {
         "Virtual"
     };

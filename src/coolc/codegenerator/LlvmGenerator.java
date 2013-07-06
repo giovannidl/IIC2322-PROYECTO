@@ -550,9 +550,15 @@ public class LlvmGenerator
 			for(int i = 0; i < caseExpr.getCases().size(); i++)
 			{
 				methodCode.addBodyCode(caseLabelNames[0][i] + ":");
-				code = "%." + caseExpr.getCases().get(i).getType() + "." + caseExpr.getCases().get(i).getId() + 
-						" = bitcast %" + caseExpr.getValue().getExprType() + "* " + valueVar + " to %" + 
-						caseExpr.getCases().get(i).getType() + "*";
+				
+				String allocateVar = "%_" +	methodCode.getClassType() + "_" + methodCode.getName() + "_"+ caseExpr.getCases().get(i).getId();
+				String allocateType = this.processReturnType(caseExpr.getCases().get(i).getType());
+				if(!this._buffer.isIdInitialized(allocateVar, methodCode.getName()))
+				{
+					String allocateCode = allocateVar + " = alloca " + allocateType + ", align 4\n";
+					methodCode.addBodyCode(allocateCode);
+					this._buffer.addId(allocateVar, methodCode.getName());
+				}
 				methodCode.addBodyCode(code);
 				
 				String finalValVar = this.processMethodExpr(caseExpr.getCases().get(i).getValue(), 
@@ -571,15 +577,10 @@ public class LlvmGenerator
 					finalVarsCase.add(finalVar);
 				}
 				
-				//Hacer un casteo a object, ya que todo debería guardarse en un object
-				
 				methodCode.addBodyCode("br label %" + caseLabelNames[2][0]);
 			}
 
 			methodCode.addBodyCode(caseLabelNames[1][caseExpr.getCases().size() - 1] + ":");
-			String emptyVar = this._buffer.getNextVariableName();
-			code = emptyVar + " = call %" + caseExpr.getExprType() + "* @_new" + caseExpr.getExprType() + "()";
-			methodCode.addBodyCode(code);
 			methodCode.addBodyCode("br label %" + caseLabelNames[2][0]);
 			methodCode.addBodyCode(caseLabelNames[2][0] + ":");
 			variableName = this._buffer.getNextVariableName();
@@ -591,8 +592,8 @@ public class LlvmGenerator
 				phiCode += "[ " + finalVarsCase.get(i) + ", %" + caseLabelNames[0][i] + " ],";
 			}
 			
-			//phiCode = phiCode.substring(0, phiCode.length() - 1);
-			phiCode += "[ " + emptyVar + ", %" + caseLabelNames[1][caseExpr.getCases().size() - 1] + "]";
+			//Se agrega el salto por default
+			phiCode += "[ null, %" + caseLabelNames[1][caseExpr.getCases().size() - 1] + "]";
 			methodCode.addBodyCode(phiCode);
 			
 			
